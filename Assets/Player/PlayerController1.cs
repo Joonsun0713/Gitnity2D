@@ -61,14 +61,18 @@ public class PlayerController1 : MonoBehaviour
         if (Hz == -1)
         {
             Playerfilp = true;
+            
 
         }
         else if (Hz == 1)
         {
             Playerfilp = false;
-
+            
         }
-
+        if (Hz != 0)
+        {
+            animator.SetTrigger("Move");
+        }
 
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -115,7 +119,7 @@ public class PlayerController1 : MonoBehaviour
     void Attack()
     {
 
-
+        
         Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(PlayerPos.position, bSize, 0);
         foreach (Collider2D collider in collider2Ds)
         {
@@ -123,8 +127,6 @@ public class PlayerController1 : MonoBehaviour
             {
                Debug.Log("АјАн");
             }
-
-
 
 
         }

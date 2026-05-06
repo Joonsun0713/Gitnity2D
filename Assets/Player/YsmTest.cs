@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Second : MonoBehaviour
+public class YsmTest : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Number2 Hello World");
+        
     }
 
     // Update is called once per frame

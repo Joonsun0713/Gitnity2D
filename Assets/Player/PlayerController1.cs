@@ -60,20 +60,22 @@ public class PlayerController1 : MonoBehaviour
 
         if (Hz == -1)
         {
-            Playerfilp = true;
-            
+            //Playerfilp = true;
 
+            transform.localScale = new Vector3(-1, 1, 1);
+            animator.SetBool("Move", true);
         }
         else if (Hz == 1)
         {
-            Playerfilp = false;
-            
+            //Playerfilp = false;
+            transform.localScale = new Vector3(1, 1, 1);
+            animator.SetBool("Move", true);
         }
-        if (Hz != 0)
+        else
         {
-            animator.SetTrigger("Move");
+            animator.SetBool("Move", false);
         }
-
+        
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -154,7 +156,7 @@ public class PlayerController1 : MonoBehaviour
 
             }
 
-            sprite.flipX = Playerfilp;
+            //sprite.flipX = Playerfilp;
 
         }
         /* void Jump()

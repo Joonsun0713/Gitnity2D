@@ -26,7 +26,7 @@ public class PlayerController1 : MonoBehaviour
 
     float AtcurTime = 0.0f;
     public float AttackCoolTime = 1.5f;
-
+    float AttackStop= 1.0f;
     Animator animator;
     // 애니메이션 관련 
     /* public string StandardAnime = "";
@@ -105,7 +105,8 @@ public class PlayerController1 : MonoBehaviour
                 animator.SetTrigger("Attack");
                 Attack();
                 AtcurTime = 0.0f;
-                
+                //AttackStop = 0.0f;
+
             }
             else
             {
@@ -131,8 +132,9 @@ public class PlayerController1 : MonoBehaviour
 
 
 
-
         }
+
+        AttackStop = 1.0f;
     }
         void OnDrawGizmos()
         {
@@ -142,7 +144,7 @@ public class PlayerController1 : MonoBehaviour
         void FixedUpdate()
         {
             // onGround = Physics2D.Linecast(transform.position, transform.position - (transform.up * 0.2f), 1 << 6);
-            rb.velocity = new Vector2(Hz * MoveSpeed, rb.velocity.y);  // 이동 값
+            rb.velocity = new Vector2(Hz * MoveSpeed*AttackStop, rb.velocity.y*AttackStop);  // 이동 값
 
             if (JumpA)
             {

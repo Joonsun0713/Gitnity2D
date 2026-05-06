@@ -60,15 +60,20 @@ public class PlayerController1 : MonoBehaviour
 
         if (Hz == -1)
         {
-            Playerfilp = true;
+
+            transform.localScale = new Vector3(-1, 1, 1);
+            animator.SetBool("Move", true);
 
         }
         else if (Hz == 1)
         {
-            Playerfilp = false;
-
+            transform.localScale = new Vector3(1, 1, 1);
+            animator.SetBool("Move", true);
         }
-
+        else
+        {
+            animator.SetBool("Move", false);
+        }
 
 
         if (Input.GetKeyDown(KeyCode.Space))

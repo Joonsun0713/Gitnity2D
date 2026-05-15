@@ -26,8 +26,8 @@ public class PlayerController1 : MonoBehaviour
     public Transform PlayerPos;
     public Vector2 bSize;
 
-    float AtcurTime = 0.0f;
-    public float AttackCoolTime = 1.5f;
+    /*float AtcurTime = 0.0f;
+    public float AttackCoolTime = 1.5f;*/
 
     Animator animator;
    
@@ -46,7 +46,7 @@ public class PlayerController1 : MonoBehaviour
 
     void Update()
     {
-        AtcurTime += Time.deltaTime;
+       // AtcurTime += Time.deltaTime;
        
         Hz = Input.GetAxisRaw("Horizontal"); //이동키 값 받기
 
@@ -70,7 +70,7 @@ public class PlayerController1 : MonoBehaviour
 
         // 플레이어 공격
 
-        if (Input.GetMouseButtonDown(0)) //마우스 좌클릭을 했을 때
+        /*if (Input.GetMouseButtonDown(0)) //마우스 좌클릭을 했을 때
         {
             //공격
 
@@ -86,12 +86,12 @@ public class PlayerController1 : MonoBehaviour
                 Debug.Log("아직 쿨타임이 안지났습니다."+ AtcurTime);
             }
 
-        }
+        }*/
 
 
 
     }
-        void Attack()
+        /*void Attack()
         {
 
 
@@ -107,7 +107,7 @@ public class PlayerController1 : MonoBehaviour
 
 
              }
-        }
+        }*/
 
         void OnCollisionEnter2D(Collision2D collision)
         {
@@ -120,12 +120,12 @@ public class PlayerController1 : MonoBehaviour
             }
         }
 
-        void OnDrawGizmos()
+       /* void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(PlayerPos.position, bSize);
-        }
-
+        }*/
+       
 
         void FixedUpdate()
         {

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
 
 //using System.Diagnostics;
 using UnityEngine;
@@ -20,17 +22,16 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onGround = Physics2D.Linecast(transform.position, transform.position - (transform.right * 0.1f), 1 << 6);
+        onGround = Physics2D.Linecast(transform.position, transform.position - (transform.right * 0.2f), 1 << 6);
         if (onGround) // 착지하면 점프 횟수 초기화
         {
-            Debug.Log("착지중");
+            
+            //Debug.Log("착지중");
             JumpCounter = 0;
-        }
-        else if(onGround == false)
-        {
-            PJump.OnPlayerJumpFall();
-        }
 
+        }
+        
+       
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (onGround || JumpCounter < 2) // 착지해 있거나, 점프 횟수가 충분하면 점프 가능
@@ -51,6 +52,6 @@ public class PlayerJump : MonoBehaviour
     {
         Gizmos.color = Color.red;
       
-        Gizmos.DrawLine(transform.position, transform.position - (transform.right * 0.1f));
+        Gizmos.DrawLine(transform.position, transform.position - (transform.right * 0.2f));
     }
 }

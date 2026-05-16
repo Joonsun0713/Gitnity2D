@@ -38,13 +38,18 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetTrigger("Jump");
     }
 
-    public void PlayerJumpFallAnimation()
+    public void PlayerJumpFallAnimation(bool IsFall)
     {
-        animator.SetTrigger("Fall");
+        animator.SetBool("Fall", IsFall);
     }
 
-    public void PlayerRollAnimaiton()
+    public void PlayerRollAnimation()
     {
         animator.SetTrigger("Roll");
+    }
+
+    public void PlayerShieldAnimation(bool isShield)
+    {
+        animator.SetBool("Shield",  isShield);
     }
 }

@@ -1365,7 +1365,6 @@ GameObject:
   - component: {fileID: 1485007993}
   - component: {fileID: 1485007992}
   - component: {fileID: 1485007996}
-  - component: {fileID: 1485007994}
   - component: {fileID: 1485007997}
   - component: {fileID: 1485007998}
   m_Layer: 8
@@ -1447,18 +1446,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1485007994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485007990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6e66c57ca031b04fbfed114a6dec83d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &1485007996
 Rigidbody2D:
   serializedVersion: 4
@@ -1666,7 +1653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091789418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.59, y: 0.673, z: 0}
+  m_LocalPosition: {x: 0.73, y: 0.673, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1687,7 +1674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackCoolTime: 1.5
   PlayerPos: {fileID: 2091789419}
-  bSize: {x: 0.85, y: 1.24}
+  bSize: {x: 1.03, y: 1.24}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128

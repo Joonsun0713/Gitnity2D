@@ -23,6 +23,8 @@ public class PlayerController1 : MonoBehaviour
 
     public int PlayerLife = 5;
 
+    float RollCurTime = 0.0f;
+    float RollCoolTime = 2.5f;
 
     //bool Playerfilp = false;  // 플레이어 좌우반전
 
@@ -42,7 +44,7 @@ public class PlayerController1 : MonoBehaviour
 
     void Update()
     {
-        // AtcurTime += Time.deltaTime;
+        RollCurTime += Time.deltaTime;
 
         Hz = Input.GetAxisRaw("Horizontal"); //이동키 값 받기
 
@@ -62,6 +64,28 @@ public class PlayerController1 : MonoBehaviour
         else if (Hz == 0)
         {
             ani.SetMoveAnimation(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (RollCurTime > RollCoolTime)
+            {
+                ani.PlayerRollAnimation();
+                RollCurTime = 0.0f;
+            }
+            else
+            {
+                Debug.Log("아직 쿨타임이 안지났습니다." + RollCurTime);
+            }
+        }
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            ani.PlayerShieldAnimation(true);
+        }
+        else
+        {
+            ani.PlayerShieldAnimation(false);
         }
     }
 
@@ -90,31 +114,46 @@ public class PlayerController1 : MonoBehaviour
     {
         ani.PlayerJumpUpAnimation();
     }
-    public void OnPlayerJumpFall()
+
+    public void OnPlayerJumpFall(bool IsFall)
     {
-        if (rb.velocity.y < 0.0f)
-        {
-            ani.PlayerJumpFallAnimation();
+            ani.PlayerJumpFallAnimation(IsFall);
             Debug.Log("착지 애니메이션");
-        }
-       
+
     }
 
-        void FixedUpdate()
+    void FixedUpdate()
+    {
+
+        rb.velocity = new Vector2(Hz * MoveSpeed, rb.velocity.y);  // 이동 값
+
+        if (JumpA)
         {
-
-            rb.velocity = new Vector2(Hz * MoveSpeed, rb.velocity.y);  // 이동 값
-
-            if (JumpA)
+            Debug.Log("점프 실행중");
+            rb.velocity = new Vector2(rb.velocity.x, JumpPower);
+            OnPlayerJumpUp();
+            JumpA = false;
+           /* if (rb.velocity.y < 0.0f)
             {
-                Debug.Log("점프 실행중");
-                rb.velocity = new Vector2(rb.velocity.x, JumpPower);
-                OnPlayerJumpUp();
-                JumpA = false;
-
-
+                Debug.Log("착지 중");
+                OnPlayerJumpFall(true);
             }
-
+            else if (rb.velocity.y >= 0.0f)
+            {
+                OnPlayerJumpFall(false);
+            }*/
+            
         }
+
+        if (rb.velocity.y < 0.0f)
+        {
+            Debug.Log("착지 중");
+            OnPlayerJumpFall(true);
+        }
+        else if (rb.velocity.y >= 0.0f)
+        {
+            OnPlayerJumpFall(false);
+        }
+    }
 
  }

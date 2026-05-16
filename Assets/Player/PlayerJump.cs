@@ -11,10 +11,10 @@ public class PlayerJump : MonoBehaviour
     bool onGround = false;
     int JumpCounter = 0;
 
-    PlayerController1 PJumpA;
+    PlayerController1 PJump;
     void Start()
     {
-        PJumpA = GetComponentInParent<PlayerController1>();
+        PJump = GetComponentInParent<PlayerController1>();
     }
 
     // Update is called once per frame
@@ -26,13 +26,18 @@ public class PlayerJump : MonoBehaviour
             Debug.Log("착지중");
             JumpCounter = 0;
         }
+        else if(onGround == false)
+        {
+            PJump.OnPlayerJumpFall();
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (onGround || JumpCounter < 2) // 착지해 있거나, 점프 횟수가 충분하면 점프 가능
             {
                 UnityEngine.Debug.Log("현재의 JumpCounter:" + JumpCounter);
-                PJumpA.JumpA = true;
+                PJump.JumpA = true;
+                //PJump.OnPlayerJumpUp();
                 ++JumpCounter;
 
             }
@@ -40,10 +45,12 @@ public class PlayerJump : MonoBehaviour
         }
        
     }
+
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        // 현재 코드의 Linecast와 완전히 동일한 위치에 선을 그립니다.
+      
         Gizmos.DrawLine(transform.position, transform.position - (transform.right * 0.1f));
     }
 }

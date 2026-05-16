@@ -5,17 +5,20 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    float AtcurTime = 0.0f;
+    float AtcurTime = 2.0f;
     public float AttackCoolTime = 1.5f;
     public Transform PlayerPos;
     public Vector2 bSize;
-    Animator animator;
+
+    PlayerController1 PlayerControl;
+
     [SerializeField] 
     private LayerMask enemyLayer;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        //ani = GetComponent<PlayerAnimator>();
+        PlayerControl = GetComponentInParent<PlayerController1>();
     }
 
     // Update is called once per frame
@@ -25,14 +28,13 @@ public class PlayerAttack : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) //마우스 좌클릭을 했을 때
         {
-            //공격
-
+            
             if (AtcurTime > AttackCoolTime)
             {
-                //animator.SetTrigger("Attack");
+                PlayerControl.OnPlayerAttack();
                 Attack();
                 AtcurTime = 0.0f;
-
+                Debug.Log("공격");
             }
             else
             {

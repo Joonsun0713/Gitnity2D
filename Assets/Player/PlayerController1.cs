@@ -102,6 +102,12 @@ public class PlayerController1 : MonoBehaviour
 
              rb.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
         }
+
+        if(PlayerLife <= 0)
+        {
+            ani.PlayerDeathAnimation();
+        }
+
     }
 
 

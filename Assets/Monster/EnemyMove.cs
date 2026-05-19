@@ -35,6 +35,10 @@ public class EnemyMove : MonoBehaviour
             spriteRenderer.flipX = nextMove == -1;
     }
 
+    public void EnemyAttackAnimation()
+    {
+        anim.SetTrigger("PlayerAttack");
+    }
 
     // Update is called once per frame
     void FixedUpdate()

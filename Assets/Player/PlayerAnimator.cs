@@ -57,4 +57,9 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator.SetTrigger("Death");
     }
+
+    public void PlayerIsShieldAnimation()
+    {
+        animator.SetTrigger("IsShield");
+    }
 }

@@ -36,7 +36,7 @@ public class PlayerJump : MonoBehaviour
         {
             if (onGround || JumpCounter < 2) // 착지해 있거나, 점프 횟수가 충분하면 점프 가능
             {
-                UnityEngine.Debug.Log("현재의 JumpCounter:" + JumpCounter);
+                //UnityEngine.Debug.Log("현재의 JumpCounter:" + JumpCounter);
                 PJump.JumpA = true;
                 //PJump.OnPlayerJumpUp();
                 ++JumpCounter;

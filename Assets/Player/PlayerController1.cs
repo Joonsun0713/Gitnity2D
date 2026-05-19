@@ -21,6 +21,8 @@ public class PlayerController1 : MonoBehaviour
     float MoveSpeed = 5.0f; //이동 속도
     [SerializeField]
 
+    bool IsShield = false;
+
     public int PlayerLife = 5;
 
     float RollCurTime = 0.0f;
@@ -53,7 +55,7 @@ public class PlayerController1 : MonoBehaviour
 
             transform.localScale = new Vector3(-1, 1, 1);
             ani.SetMoveAnimation(true);
-            Debug.Log("애니메이션 작동 여부");
+            //Debug.Log("애니메이션 작동 여부");
 
         }
         else if (Hz == 1)
@@ -82,10 +84,12 @@ public class PlayerController1 : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             ani.PlayerShieldAnimation(true);
+            IsShield = true;
         }
         else
         {
             ani.PlayerShieldAnimation(false);
+            IsShield= false;
         }
     }
 
@@ -93,7 +97,7 @@ public class PlayerController1 : MonoBehaviour
 
 
 
-    void OnCollisionEnter2D(Collision2D collision)
+    /*void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 7)
         {
@@ -108,6 +112,35 @@ public class PlayerController1 : MonoBehaviour
             ani.PlayerDeathAnimation();
         }
 
+    }*/
+
+    public void Damage(int Hit)
+    {
+        if (PlayerLife <= 0) return;
+
+        if (IsShield == false)
+        {
+            PlayerLife -= Hit;
+            Debug.Log("현재 HP = " + PlayerLife);
+
+
+            if (PlayerLife > 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 0f);
+                rb.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+                ani.PlayerDeathAnimation();
+            }
+
+        }
+        else if(IsShield) 
+        {
+            ani.PlayerIsShieldAnimation();
+            Debug.Log("방어 성공");
+        }
     }
 
 
@@ -124,7 +157,7 @@ public class PlayerController1 : MonoBehaviour
     public void OnPlayerJumpFall(bool IsFall)
     {
             ani.PlayerJumpFallAnimation(IsFall);
-            Debug.Log("착지 애니메이션");
+            //Debug.Log("착지 애니메이션");
 
     }
 
@@ -135,7 +168,7 @@ public class PlayerController1 : MonoBehaviour
 
         if (JumpA)
         {
-            Debug.Log("점프 실행중");
+            //Debug.Log("점프 실행중");
             rb.velocity = new Vector2(rb.velocity.x, JumpPower);
             OnPlayerJumpUp();
             JumpA = false;
@@ -153,7 +186,7 @@ public class PlayerController1 : MonoBehaviour
 
         if (rb.velocity.y < 0.0f)
         {
-            Debug.Log("착지 중");
+           // Debug.Log("착지 중");
             OnPlayerJumpFall(true);
         }
         else if (rb.velocity.y >= 0.0f)

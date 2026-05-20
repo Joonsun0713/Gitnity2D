@@ -22,7 +22,7 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onGround = Physics2D.Linecast(transform.position, transform.position - (transform.right * 0.2f), 1 << 6);
+        onGround = Physics2D.Linecast(transform.position, transform.position - (transform.up * 0.2f), 1 << 6);
         if (onGround) // 착지하면 점프 횟수 초기화
         {
             
@@ -34,7 +34,7 @@ public class PlayerJump : MonoBehaviour
        
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (onGround || JumpCounter < 2) // 착지해 있거나, 점프 횟수가 충분하면 점프 가능
+            if (onGround ||JumpCounter < 1) // 착지해 있거나, 점프 횟수가 충분하면 점프 가능
             {
                 //UnityEngine.Debug.Log("현재의 JumpCounter:" + JumpCounter);
                 PJump.JumpA = true;
@@ -52,6 +52,6 @@ public class PlayerJump : MonoBehaviour
     {
         Gizmos.color = Color.red;
       
-        Gizmos.DrawLine(transform.position, transform.position - (transform.right * 0.2f));
+        Gizmos.DrawLine(transform.position, transform.position - (transform.up * 0.2f));
     }
 }

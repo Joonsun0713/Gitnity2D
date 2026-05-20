@@ -91,28 +91,23 @@ public class PlayerController1 : MonoBehaviour
             ani.PlayerShieldAnimation(false);
             IsShield= false;
         }
+
+        if (rb.velocity.y < 0.0f)
+        {
+            // Debug.Log("착지 중");
+            OnPlayerJumpFall(true);
+        }
+        else if (rb.velocity.y >= 0.0f)
+        {
+            OnPlayerJumpFall(false);
+        }
     }
 
         // 플레이어 공격
 
 
 
-    /*void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == 7)
-        {
-             PlayerLife -= 1;
-             Debug.Log("현재 HP = " + PlayerLife);
-
-             rb.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
-        }
-
-        if(PlayerLife <= 0)
-        {
-            ani.PlayerDeathAnimation();
-        }
-
-    }*/
+  
 
     public void Damage(int Hit)
     {
@@ -184,15 +179,7 @@ public class PlayerController1 : MonoBehaviour
             
         }
 
-        if (rb.velocity.y < 0.0f)
-        {
-           // Debug.Log("착지 중");
-            OnPlayerJumpFall(true);
-        }
-        else if (rb.velocity.y >= 0.0f)
-        {
-            OnPlayerJumpFall(false);
-        }
+       
     }
 
  }

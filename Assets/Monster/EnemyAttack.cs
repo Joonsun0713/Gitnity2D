@@ -39,7 +39,7 @@ public class EnemyAttack : MonoBehaviour
                 if (EnemyAnime != null) EnemyAnime.EnemyAttackAnimation();
 
                 // 플레이어에게 데미지 1 주기!
-                targetPlayer.Damage(1);
+                targetPlayer.Damage(10);
                 Debug.Log("플레이어 공격 성공 및 데미지 전달 완료!");
             }
         }

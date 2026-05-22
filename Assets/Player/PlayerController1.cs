@@ -23,10 +23,11 @@ public class PlayerController1 : MonoBehaviour
 
     bool IsShield = false;
 
-    public int PlayerLife = 5;
+    public static int PlayerLife = 100;
 
     float RollCurTime = 0.0f;
     float RollCoolTime = 2.5f;
+
 
     //bool Playerfilp = false;  // 플레이어 좌우반전
 

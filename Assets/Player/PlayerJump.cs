@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-
 
 //using System.Diagnostics;
 using UnityEngine;
@@ -22,7 +20,7 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onGround = Physics2D.Linecast(transform.position, transform.position - (transform.up * 0.2f), 1 << 6);
+        onGround = Physics2D.Linecast(transform.position, (Vector2)transform.position + (Vector2.down * 0.25f), 1 << 6);
         if (onGround) // 착지하면 점프 횟수 초기화
         {
             
@@ -51,7 +49,7 @@ public class PlayerJump : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-      
+        //Gizmos.DrawLine(transform.position, transform.position - (transform.up * 0.2f));
         Gizmos.DrawLine(transform.position, transform.position - (transform.up * 0.2f));
     }
 }

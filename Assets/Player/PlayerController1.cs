@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 //using System.Diagnostics;
 using UnityEngine;
 
@@ -28,9 +30,6 @@ public class PlayerController1 : MonoBehaviour
     float RollCurTime = 0.0f;
     float RollCoolTime = 2.5f;
 
-    //bool Playerfilp = false;  // 플레이어 좌우반전
-
-    //Animator animator;
 
     //현재 애니메이션 상태
 
@@ -38,7 +37,7 @@ public class PlayerController1 : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation; // 플레이어 오브젝트가 회전하지 않게 하기 
+         // 플레이어 오브젝트가 회전하지 않게 하기 
         PJump = GetComponentInChildren<PlayerJump>();
         ani = GetComponentInChildren<PlayerAnimator>();
 
@@ -92,22 +91,8 @@ public class PlayerController1 : MonoBehaviour
             IsShield= false;
         }
 
-        if (rb.velocity.y < 0.0f)
-        {
-            // Debug.Log("착지 중");
-            OnPlayerJumpFall(true);
-        }
-        else if (rb.velocity.y >= 0.0f)
-        {
-            OnPlayerJumpFall(false);
-        }
+        
     }
-
-        // 플레이어 공격
-
-
-
-  
 
     public void Damage(int Hit)
     {
@@ -167,19 +152,20 @@ public class PlayerController1 : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, JumpPower);
             OnPlayerJumpUp();
             JumpA = false;
-           /* if (rb.velocity.y < 0.0f)
-            {
-                Debug.Log("착지 중");
-                OnPlayerJumpFall(true);
-            }
-            else if (rb.velocity.y >= 0.0f)
-            {
-                OnPlayerJumpFall(false);
-            }*/
+          
             
         }
 
-       
+        if (rb.velocity.y < 0.0f)
+        {
+            // Debug.Log("착지 중");
+            OnPlayerJumpFall(true);
+        }
+        else if (rb.velocity.y >= 0.0f)
+        {
+
+            OnPlayerJumpFall(false);
+        }
     }
 
  }

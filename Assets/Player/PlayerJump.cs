@@ -2,13 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-//using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerJump : MonoBehaviour
 {
     //public bool JumpA = false;
-    bool onGround = false;
+    public bool onGround = false;
     int JumpCounter = 0;
 
     PlayerController1 PJump;
@@ -20,7 +19,7 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onGround = Physics2D.Linecast(transform.position, (Vector2)transform.position + (Vector2.down * 0.25f), 1 << 6);
+        onGround = Physics2D.Linecast(transform.position, (Vector2)transform.position + (Vector2.down * 0.2f), 1 << 6);
         if (onGround) // 착지하면 점프 횟수 초기화
         {
             
@@ -42,7 +41,7 @@ public class PlayerJump : MonoBehaviour
             }
 
         }
-       
+        Debug.Log("onGround = "+ onGround);
     }
 
 

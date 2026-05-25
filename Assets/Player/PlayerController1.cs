@@ -2,9 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-
-
-//using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerController1 : MonoBehaviour
@@ -23,13 +20,15 @@ public class PlayerController1 : MonoBehaviour
     float MoveSpeed = 5.0f; //이동 속도
     [SerializeField]
 
-    bool IsShield = false;
-
+    bool isShield = false;
+    bool isRoll = false;
     public int PlayerLife = 5;
 
     float RollCurTime = 0.0f;
+    [SerializeField]
     float RollCoolTime = 2.5f;
-
+    [SerializeField]
+    float RollSpeed = 1.0f;
 
     //현재 애니메이션 상태
 
@@ -37,7 +36,6 @@ public class PlayerController1 : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-         // 플레이어 오브젝트가 회전하지 않게 하기 
         PJump = GetComponentInChildren<PlayerJump>();
         ani = GetComponentInChildren<PlayerAnimator>();
 
@@ -49,17 +47,17 @@ public class PlayerController1 : MonoBehaviour
 
         Hz = Input.GetAxisRaw("Horizontal"); //이동키 값 받기
 
-        if (Hz == -1)
+        if (Hz == 1)
         {
 
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(1, 1, 1);
             ani.SetMoveAnimation(true);
             //Debug.Log("애니메이션 작동 여부");
 
         }
-        else if (Hz == 1)
+        else if (Hz == -1)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);
             ani.SetMoveAnimation(true);
         }
         else if (Hz == 0)
@@ -71,7 +69,12 @@ public class PlayerController1 : MonoBehaviour
         {
             if (RollCurTime > RollCoolTime)
             {
+
                 ani.PlayerRollAnimation();
+                isRoll = true;
+                Debug.Log("구르기 시작: Invincible = " + isRoll);
+                RollSpeed = 1.5f;
+                Invoke("MovingRollSpeed", 0.7f);
                 RollCurTime = 0.0f;
             }
             else
@@ -83,22 +86,50 @@ public class PlayerController1 : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             ani.PlayerShieldAnimation(true);
-            IsShield = true;
+            isShield = true;
         }
         else
         {
             ani.PlayerShieldAnimation(false);
-            IsShield= false;
+            isShield = false;
         }
 
+
+        /*if (rb.velocity.y < -0.01f)
+        {
+            Debug.Log("y축 값" + Mathf.FloorToInt(rb.velocity.y));
+            OnPlayerJumpFall(true);
+        }
+        else if (rb.velocity.y >= 0.0f)
+        {
+            //Debug.Log("y축 값" + rb.velocity.y);
+            OnPlayerJumpFall(false);
+        }*/
         
+        if (PJump.onGround == false && rb.velocity.y < 0.0f)
+        {
+             OnPlayerJumpFall(true);
+        }
+        else if (PJump.onGround == true)
+        {
+                
+             OnPlayerJumpFall(false);
+        }
+        
+    }
+    void MovingRollSpeed()  // Invoke()를 이용한 구르기 스피드 조정
+    {
+        RollSpeed = 1.0f;
+        isRoll = false;
+        Debug.Log("구르기 끝: Invincible = " + isRoll);
+        Debug.Log("스피드 원상태");
     }
 
     public void Damage(int Hit)
     {
         if (PlayerLife <= 0) return;
 
-        if (IsShield == false)
+        if (!isShield && !isRoll)
         {
             PlayerLife -= Hit;
             Debug.Log("현재 HP = " + PlayerLife);
@@ -116,7 +147,7 @@ public class PlayerController1 : MonoBehaviour
             }
 
         }
-        else if(IsShield) 
+        else if(isRoll || isShield) 
         {
             ani.PlayerIsShieldAnimation();
             Debug.Log("방어 성공");
@@ -144,7 +175,7 @@ public class PlayerController1 : MonoBehaviour
     void FixedUpdate()
     {
 
-        rb.velocity = new Vector2(Hz * MoveSpeed, rb.velocity.y);  // 이동 값
+        rb.velocity = new Vector2(Hz * MoveSpeed * RollSpeed, rb.velocity.y);  // 이동 값
 
         if (JumpA)
         {
@@ -156,16 +187,6 @@ public class PlayerController1 : MonoBehaviour
             
         }
 
-        if (rb.velocity.y < 0.0f)
-        {
-            // Debug.Log("착지 중");
-            OnPlayerJumpFall(true);
-        }
-        else if (rb.velocity.y >= 0.0f)
-        {
-
-            OnPlayerJumpFall(false);
-        }
     }
 
  }

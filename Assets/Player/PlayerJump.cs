@@ -41,7 +41,7 @@ public class PlayerJump : MonoBehaviour
             }
 
         }
-        Debug.Log("onGround = "+ onGround);
+        //Debug.Log("onGround = "+ onGround);
     }
 
 

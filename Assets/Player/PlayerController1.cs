@@ -155,9 +155,9 @@ public class PlayerController1 : MonoBehaviour
     }
 
 
-    public void OnPlayerAttack()
+    public void OnPlayerComboAttack(int ComboStep)
     {
-        ani.PlayAttackAnimation();
+        ani.PlayComboAttackAnimation(ComboStep);
     }
 
     public void OnPlayerJumpUp()

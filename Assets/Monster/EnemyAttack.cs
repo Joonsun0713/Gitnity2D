@@ -1,71 +1,42 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    EnemyMove EnemyAnime;
-    PlayerController1 Player;
     [SerializeField]
     private LayerMask PlayerLayer;
-    public Transform EnemyPos;
-    public Vector2 bSize;
-    
-    void Start()
-    {
-        EnemyAnime = GetComponentInParent<EnemyMove>();
-        Player = GetComponent<PlayerController1>();
-    }
 
-    
-    void Update()
-    {
-        
-    }
+    private bool canAttack = true;
+
+    [SerializeField]
+    private float attackCooldown = 1.5f;
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (!canAttack) return;
+
         if ((PlayerLayer.value & (1 << other.gameObject.layer)) > 0)
         {
-            
-            PlayerController1 targetPlayer = other.GetComponent<PlayerController1>();
+            PlayerController1 targetPlayer =
+                other.GetComponent<PlayerController1>();
 
-           
             if (targetPlayer != null)
             {
-                // ∞¯∞› æ÷¥œ∏ﬁ¿Ãº« Ω««‡
-                if (EnemyAnime != null) EnemyAnime.EnemyAttackAnimation();
-
-                // «√∑π¿ÃæÓø°∞‘ µ•πÃ¡ˆ 1 ¡÷±‚!
                 targetPlayer.Damage(1);
-                Debug.Log("«√∑π¿ÃæÓ ∞¯∞› º∫∞¯ π◊ µ•πÃ¡ˆ ¿¸¥ﬁ øœ∑·!");
+
+                Debug.Log("ÌîåÎ†àÏù¥Ïñ¥ Í≥µÍ≤© ÏÑ±Í≥µ");
+
+                StartCoroutine(AttackCooldown());
             }
         }
     }
-    /* void OnTriggerEnter2D(Collider2D other)
-     {
-         Attack();
-         EnemyAnime.EnemyAttackAnimation();
-     }
 
-     void Attack()
-     {
-
-
-         Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(EnemyPos.position, bSize, 0, PlayerLayer);
-
-         foreach (Collider2D collider in collider2Ds)
-         {
-             Player.Damage(1);
-             Debug.Log("«√∑π¿ÃæÓ ∞¯∞› º∫∞¯");
-
-         }
-     }*/
-    void OnDrawGizmos()
+    IEnumerator AttackCooldown()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(EnemyPos.position, bSize);
+        canAttack = false;
+
+        yield return new WaitForSeconds(attackCooldown);
+
+        canAttack = true;
     }
 }

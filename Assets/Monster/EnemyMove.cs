@@ -5,75 +5,112 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour
 {
     Rigidbody2D rigid;
-    public int nextMove;
     Animator anim;
     SpriteRenderer spriteRenderer;
 
+    public int nextMove;
+
+    private Transform player;
+    private float detectRange = 5f;
+    private float loseRange = 7f;
+
+    private bool isChasing = false;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();    // ¾Ö´Ï¸ŞÀÌ¼Ç
+        anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        Invoke("Flip", 2);
-
-
     }
-    
 
-    void SetDirection(int dir)
+    void Start()
     {
-        nextMove = dir;
+    Invoke("Think", 2f);
+    GameObject p =
+        GameObject.FindGameObjectWithTag("Player");
 
- 
-        // ¾Ö´Ï¸ŞÀÌ¼Ç
-        anim.SetInteger("WalkSpeed", Mathf.Abs(nextMove));
-;
-
-        // ¹æÇâ
-        if (nextMove != 0)
-            spriteRenderer.flipX = nextMove == -1;
-    }
-
-    public void EnemyAttackAnimation()
+    if (p == null)
     {
-        anim.SetTrigger("PlayerAttack");
+        p = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
+    if (p != null)
+    {
+        player = p.transform;
+
+        Debug.Log("í”Œë ˆì´ì–´ ì°¾ìŒ");
+    }
+    else
+    {
+        Debug.Log("í”Œë ˆì´ì–´ ëª»ì°¾ìŒ");
+    }
+}
+
+    void Update()
+    {
+        if (player == null) return;
+
+        float distance = Vector2.Distance(transform.position, player.position);
+
+        if (!isChasing && distance <= detectRange)
+        {
+            isChasing = true;
+            CancelInvoke("Think");
+        }
+        else if (isChasing && distance >= loseRange)
+        {
+            isChasing = false;
+            if (!IsInvoking("Think"))
+            {
+                Invoke("Think", 1f);
+            }
+        }
+    }
+
     void FixedUpdate()
     {
+        if (isChasing && player != null)
+        {
+            if (player.position.x > transform.position.x)
+            {
+                nextMove = 1;
+                spriteRenderer.flipX = false;
+            }
+            else
+            {
+                nextMove = -1;
+                spriteRenderer.flipX = true;
+            }
+        }
+
         rigid.velocity = new Vector2(nextMove, rigid.velocity.y);
 
         Vector2 frontVec = new Vector2(rigid.position.x + nextMove * 0.5f, rigid.position.y - 0.5f);
         Debug.DrawRay(frontVec, Vector3.down, new Color(0, 1, 0));
 
-        // RayCast¸¦ »ç¿ëÇÏ¿© ¸ó½ºÅÍ ÁÖº¯¿¡ ¹Ù´ÚÀÌ ¾øÀ» ½Ã ¹æÇâ ÀüÈ¯À» ÇÏ¿© ¾È¶³¾îÁö°Ô ÇÒ ¼ö ÀÖÀ½.
         RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector2.down, 1f, LayerMask.GetMask("ground"));
-
-
-
-        if (rayHit.collider == null) // ¹Ù´ÚÀÌ ¾øÀ» ½Ã ¹æÇâ ÀüÈ¯
+        if (rayHit.collider == null)
         {
             Turn();
         }
     }
-    void Flip() // ¿òÁ÷ÀÓ ±¸Çö
+
+    void Think()
     {
-        int rand = Random.Range(-1, 2);
+        if (isChasing) return;
 
-        SetDirection(rand);
+        nextMove = Random.Range(-1, 2);
 
-        float nextFlipTime = Random.Range(2f, 4f);  // 2~4ÃÊ ·£´ı ½Ã°£ ºÎ¿©
-        Invoke("Flip", nextFlipTime);               // 2~4ÃÊ¸¶´Ù Flip È£Ãâ ÇÏ¸é¼­ ¿òÁ÷ÀÌ°Ô ÇÔ. Àç±ÍÇÔ¼ö.
+        float nextThinkTime = Random.Range(2f, 5f);
+        Invoke("Think", nextThinkTime);
     }
 
-    void Turn() // ¹æÇâÀüÈ¯
+    void Turn()
     {
-        SetDirection(-nextMove);
+        nextMove *= -1;
+        spriteRenderer.flipX = nextMove == 1;
 
         CancelInvoke();
-        Invoke("Flip", 2);  // 2ÃÊ¸¶´Ù Flip È£Ãâ
+        Invoke("Think", 2f);
     }
 }
-

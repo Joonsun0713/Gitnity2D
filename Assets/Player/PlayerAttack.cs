@@ -11,8 +11,8 @@ public class PlayerAttack : MonoBehaviour
     public Transform PlayerPos;
     public Vector2 bSize;
 
-    int ComboStep = 0;  // �޺� ���� ���� �ܰ�
-    float ComboTime = 0.0f; //�޺� �ð� ���
+    int ComboStep = 0;  // 콤보 공격 현재 단계
+    float ComboTime = 0.0f; //콤보 시간 재기
     float ComboDelay = 0.8f;
     bool isComboTimerRunning = false;
 
@@ -36,17 +36,17 @@ public class PlayerAttack : MonoBehaviour
     {
         AtcurTime += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0)) //���콺 ��Ŭ���� ���� ��
+        if (Input.GetMouseButtonDown(0)) //마우스 좌클릭을 했을 때
         {
             //ComboAttack();
           if (AtcurTime > AttackCoolTime)
              {
                 ComboAttack();
-                Debug.Log("����");
+                Debug.Log("공격");
             }
             else
             {
-                Debug.Log("���� ��Ÿ���� ���������ϴ�." + AtcurTime);
+                Debug.Log("아직 쿨타임이 안지났습니다." + AtcurTime);
             }
 
         }
@@ -60,7 +60,7 @@ public class PlayerAttack : MonoBehaviour
                 ComboTime = 0f;
                 isComboTimerRunning = false;
                 PlayerControl.OnPlayerComboAttack(ComboStep);
-                Debug.Log("�޺� �ʱ�ȭ" + ComboStep);
+                Debug.Log("콤보 초기화" + ComboStep);
                 AtcurTime = 0.0f;
             }
         }
@@ -75,10 +75,10 @@ public class PlayerAttack : MonoBehaviour
         ComboStep++;
         if (ComboStep > 3)
             ComboStep = 1;
-        Debug.Log("�޺� �ܰ�"+ ComboStep);
+        Debug.Log("콤보 단계" + ComboStep);
         PlayerControl.OnPlayerComboAttack(ComboStep);
         Attack();
-        //Debug.Log(" ���� ����" );
+        //Debug.Log(" 공격 성공" );
         //AtcurTime = 0.0f;
     }
 

@@ -16,7 +16,7 @@ public class PlayerAttack : MonoBehaviour
     float ComboDelay = 0.8f;
     bool isComboTimerRunning = false;
 
-
+    float Combo_st = PlayerController1.Stamina;
 
 
 
@@ -67,19 +67,39 @@ public class PlayerAttack : MonoBehaviour
 
 
     }
+    //void ComboAttack()
+    //{
+    //    ComboTime = 0.0f;
+    //    isComboTimerRunning =true;
+
+    //    ComboStep++;
+    //    if (ComboStep > 3)
+    //        ComboStep = 1;
+    //    Debug.Log("�޺� �ܰ�"+ ComboStep);
+    //    PlayerControl.OnPlayerComboAttack(ComboStep);
+    //    Attack();
+    //    //Debug.Log(" ���� ����" );
+    //    //AtcurTime = 0.0f;
+    //}
+
     void ComboAttack()
     {
-        ComboTime = 0.0f;
-        isComboTimerRunning =true;
+        // 스태미너 체크 (예: 1회당 10 소모)
+        if (PlayerController1.Stamina >= 10)
+        {
+             PlayerControl.UseStamina(10); // 스태미너 소모
 
-        ComboStep++;
-        if (ComboStep > 3)
-            ComboStep = 1;
-        Debug.Log("�޺� �ܰ�"+ ComboStep);
-        PlayerControl.OnPlayerComboAttack(ComboStep);
-        Attack();
-        //Debug.Log(" ���� ����" );
-        //AtcurTime = 0.0f;
+            ComboTime = 0.0f;
+            isComboTimerRunning = true;
+            ComboStep++;
+            if (ComboStep > 3) ComboStep = 1;
+            PlayerControl.OnPlayerComboAttack(ComboStep);
+            Attack();
+        }
+        else
+        {
+            Debug.Log("스태미너가 부족합니다!");
+        }
     }
 
     void Attack()

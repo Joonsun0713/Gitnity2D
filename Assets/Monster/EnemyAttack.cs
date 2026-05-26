@@ -22,7 +22,7 @@ public class EnemyAttack : MonoBehaviour
 
             if (targetPlayer != null)
             {
-                targetPlayer.Damage(1);
+                targetPlayer.Damage(10);
 
                 Debug.Log("�댁 怨듦꺽 깃났");
 

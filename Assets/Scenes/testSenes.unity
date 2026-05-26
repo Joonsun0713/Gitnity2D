@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 183476020}
   - component: {fileID: 183476024}
   - component: {fileID: 183476023}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1552,6 +1552,7 @@ GameObject:
   - component: {fileID: 1485007996}
   - component: {fileID: 1485007997}
   - component: {fileID: 1485007998}
+  - component: {fileID: 1485007999}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1686,6 +1687,37 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.79797685}
   m_Size: {x: 0.9, y: 1.1040461}
   m_Direction: 0
+--- !u!114 &1485007999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485007990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 019b3c9e834e95c4d968a4ba0006525d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpBar: {fileID: 1371667260}
+  maxHp: 100
+--- !u!1 &1525714397 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 855993589590907038, guid: d43ab6e1ce85b9349a0ac65a5e8017de, type: 3}
+  m_PrefabInstance: {fileID: 855993587971484991}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1525714398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525714397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e3acbc9468f7d4b8b2a5db15431bf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1569628093
 GameObject:
   m_ObjectHideFlags: 0
@@ -2118,6 +2150,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 855993589590907036, guid: d43ab6e1ce85b9349a0ac65a5e8017de, type: 3}
+      propertyPath: m_Simulated
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 855993589590907038, guid: d43ab6e1ce85b9349a0ac65a5e8017de, type: 3}
       propertyPath: m_Name
       value: Mushroom
@@ -2135,6 +2171,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 555120126, guid: e48222d0e881a30469ea257ec774a321, type: 3}
+      propertyPath: m_TagString
+      value: enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052061905310546720, guid: e48222d0e881a30469ea257ec774a321, type: 3}
+      propertyPath: m_Direction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052061905310546720, guid: e48222d0e881a30469ea257ec774a321, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2052061905310546723, guid: e48222d0e881a30469ea257ec774a321, type: 3}
       propertyPath: m_Name
       value: Goblin
@@ -2149,11 +2197,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2052061905310546725, guid: e48222d0e881a30469ea257ec774a321, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.99
+      value: -0.42
       objectReference: {fileID: 0}
     - target: {fileID: 2052061905310546725, guid: e48222d0e881a30469ea257ec774a321, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.89
+      value: 2.59
       objectReference: {fileID: 0}
     - target: {fileID: 2052061905310546725, guid: e48222d0e881a30469ea257ec774a321, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2198,7 +2246,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4994343203258672795, guid: 237ab5d2ee1bce64e9a4b705e122b74d, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4994343203258672795, guid: 237ab5d2ee1bce64e9a4b705e122b74d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2247,6 +2295,14 @@ PrefabInstance:
     - target: {fileID: 4994343203258672796, guid: 237ab5d2ee1bce64e9a4b705e122b74d, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994343203258672798, guid: 237ab5d2ee1bce64e9a4b705e122b74d, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994343203258672799, guid: 237ab5d2ee1bce64e9a4b705e122b74d, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 237ab5d2ee1bce64e9a4b705e122b74d, type: 3}

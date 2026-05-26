@@ -24,7 +24,7 @@ public class EnemyAttack : MonoBehaviour
             {
                 targetPlayer.Damage(1);
 
-                Debug.Log("플레이어 공격 성공");
+                Debug.Log("�댁 怨듦꺽 깃났");
 
                 StartCoroutine(AttackCooldown());
             }

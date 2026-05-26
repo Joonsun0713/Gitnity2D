@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
@@ -21,15 +22,16 @@ public class PlayerAnimator : MonoBehaviour
     public void SetMoveAnimation(bool isMoving)
     {
         
-            animator.SetBool("Move", isMoving);
+       animator.SetBool("Move", isMoving);
         
     }
 
     
-    public void PlayAttackAnimation()
+    public void PlayComboAttackAnimation(int ComboStep)
     {
         
-            animator.SetTrigger("Attack");
+        animator.SetInteger("ComboStep", ComboStep);
+        animator.SetTrigger("Attack");
         
     }
 
@@ -40,7 +42,9 @@ public class PlayerAnimator : MonoBehaviour
 
     public void PlayerJumpFallAnimation(bool IsFall)
     {
+       
         animator.SetBool("Fall", IsFall);
+        
     }
 
     public void PlayerRollAnimation()
@@ -62,4 +66,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator.SetTrigger("IsShield");
     }
+
+   
+
 }

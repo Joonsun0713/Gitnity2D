@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-//using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerController1 : MonoBehaviour
@@ -15,31 +14,31 @@ public class PlayerController1 : MonoBehaviour
     float Hz;
 
     [SerializeField]
-    float JumpPower = 5.0f; // Á¡ÇÁ°ª 
-    public bool JumpA = false;  //Á¡ÇÁ ÆÇ´Ü
+    float JumpPower = 5.0f; // ì í”„ê°’ 
+    public bool JumpA = false;  //ì í”„ íŒë‹¨
     [SerializeField]
-    float MoveSpeed = 5.0f; //ÀÌµ¿ ¼Óµµ
+    float MoveSpeed = 5.0f; //ì´ë™ ì†ë„
     [SerializeField]
 
-    bool IsShield = false;
-
-    public static int PlayerLife = 100;
+    bool isShield = false;
+    bool isRoll = false;
+    public int PlayerLife = 5;
 
     float RollCurTime = 0.0f;
+    [SerializeField]
     float RollCoolTime = 2.5f;
 
 
-    //bool Playerfilp = false;  // ÇÃ·¹ÀÌ¾î ÁÂ¿ì¹İÀü
+    //bool Playerfilp = false;  // í”Œë ˆì´ì–´ ì¢Œìš°ë°˜ì „
 
     //Animator animator;
 
-    //ÇöÀç ¾Ö´Ï¸ŞÀÌ¼Ç »óÅÂ
+    //í˜„ì¬ ì• ë‹ˆë©”ì´ì…˜ ìƒíƒœ
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation; // ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®°¡ È¸ÀüÇÏÁö ¾Ê°Ô ÇÏ±â 
         PJump = GetComponentInChildren<PlayerJump>();
         ani = GetComponentInChildren<PlayerAnimator>();
 
@@ -49,19 +48,19 @@ public class PlayerController1 : MonoBehaviour
     {
         RollCurTime += Time.deltaTime;
 
-        Hz = Input.GetAxisRaw("Horizontal"); //ÀÌµ¿Å° °ª ¹Ş±â
+        Hz = Input.GetAxisRaw("Horizontal"); //ì´ë™í‚¤ ê°’ ë°›ê¸°
 
-        if (Hz == -1)
+        if (Hz == 1)
         {
 
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(1, 1, 1);
             ani.SetMoveAnimation(true);
-            //Debug.Log("¾Ö´Ï¸ŞÀÌ¼Ç ÀÛµ¿ ¿©ºÎ");
+            //Debug.Log("ì• ë‹ˆë©”ì´ì…˜ ì‘ë™ ì—¬ë¶€");
 
         }
-        else if (Hz == 1)
+        else if (Hz == -1)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);
             ani.SetMoveAnimation(true);
         }
         else if (Hz == 0)
@@ -73,56 +72,60 @@ public class PlayerController1 : MonoBehaviour
         {
             if (RollCurTime > RollCoolTime)
             {
+
                 ani.PlayerRollAnimation();
+                isRoll = true;
+                Debug.Log("êµ¬ë¥´ê¸° ì‹œì‘: Invincible = " + isRoll);
+                RollSpeed = 1.5f;
+                Invoke("MovingRollSpeed", 0.7f);
                 RollCurTime = 0.0f;
             }
             else
             {
-                Debug.Log("¾ÆÁ÷ ÄğÅ¸ÀÓÀÌ ¾ÈÁö³µ½À´Ï´Ù." + RollCurTime);
+                Debug.Log("ì•„ì§ ì¿¨íƒ€ì„ì´ ì•ˆì§€ë‚¬ìŠµë‹ˆë‹¤." + RollCurTime);
             }
         }
 
         if (Input.GetKey(KeyCode.E))
         {
             ani.PlayerShieldAnimation(true);
-            IsShield = true;
+            isShield = true;
         }
         else
         {
             ani.PlayerShieldAnimation(false);
-            IsShield= false;
+            isShield = false;
         }
+
+
+        
+        if (PJump.onGround == false && rb.velocity.y < 0.0f)
+        {
+             OnPlayerJumpFall(true);
+        }
+        else if (PJump.onGround == true)
+        {
+                
+             OnPlayerJumpFall(false);
+        }
+        
     }
-
-        // ÇÃ·¹ÀÌ¾î °ø°İ
-
-
-
-    /*void OnCollisionEnter2D(Collision2D collision)
+    void MovingRollSpeed()  // Invoke()ë¥¼ ì´ìš©í•œ êµ¬ë¥´ê¸° ìŠ¤í”¼ë“œ ì¡°ì •
     {
-        if (collision.gameObject.layer == 7)
-        {
-             PlayerLife -= 1;
-             Debug.Log("ÇöÀç HP = " + PlayerLife);
-
-             rb.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
-        }
-
-        if(PlayerLife <= 0)
-        {
-            ani.PlayerDeathAnimation();
-        }
-
-    }*/
+        RollSpeed = 1.0f;
+        isRoll = false;
+        Debug.Log("êµ¬ë¥´ê¸° ë: Invincible = " + isRoll);
+        
+    }
 
     public void Damage(int Hit)
     {
         if (PlayerLife <= 0) return;
 
-        if (IsShield == false)
+        if (!isShield && !isRoll)
         {
             PlayerLife -= Hit;
-            Debug.Log("ÇöÀç HP = " + PlayerLife);
+            Debug.Log("í˜„ì¬ HP = " + PlayerLife);
 
 
             if (PlayerLife > 0)
@@ -137,17 +140,17 @@ public class PlayerController1 : MonoBehaviour
             }
 
         }
-        else if(IsShield) 
+        else if(isShield) 
         {
             ani.PlayerIsShieldAnimation();
-            Debug.Log("¹æ¾î ¼º°ø");
+            Debug.Log("ë°©ì–´ ì„±ê³µ");
         }
     }
 
 
-    public void OnPlayerAttack()
+    public void OnPlayerComboAttack(int ComboStep)
     {
-        ani.PlayAttackAnimation();
+        ani.PlayComboAttackAnimation(ComboStep);
     }
 
     public void OnPlayerJumpUp()
@@ -158,42 +161,25 @@ public class PlayerController1 : MonoBehaviour
     public void OnPlayerJumpFall(bool IsFall)
     {
             ani.PlayerJumpFallAnimation(IsFall);
-            //Debug.Log("ÂøÁö ¾Ö´Ï¸ŞÀÌ¼Ç");
+            //Debug.Log("ì°©ì§€ ì• ë‹ˆë©”ì´ì…˜");
 
     }
 
     void FixedUpdate()
     {
 
-        rb.velocity = new Vector2(Hz * MoveSpeed, rb.velocity.y);  // ÀÌµ¿ °ª
+        rb.velocity = new Vector2(Hz * MoveSpeed * RollSpeed, rb.velocity.y);  // ì´ë™ ê°’
 
         if (JumpA)
         {
-            //Debug.Log("Á¡ÇÁ ½ÇÇàÁß");
+            //Debug.Log("ì í”„ ì‹¤í–‰ì¤‘");
             rb.velocity = new Vector2(rb.velocity.x, JumpPower);
             OnPlayerJumpUp();
             JumpA = false;
-           /* if (rb.velocity.y < 0.0f)
-            {
-                Debug.Log("ÂøÁö Áß");
-                OnPlayerJumpFall(true);
-            }
-            else if (rb.velocity.y >= 0.0f)
-            {
-                OnPlayerJumpFall(false);
-            }*/
+          
             
         }
 
-        if (rb.velocity.y < 0.0f)
-        {
-           // Debug.Log("ÂøÁö Áß");
-            OnPlayerJumpFall(true);
-        }
-        else if (rb.velocity.y >= 0.0f)
-        {
-            OnPlayerJumpFall(false);
-        }
     }
 
  }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -9,6 +10,15 @@ public class PlayerAttack : MonoBehaviour
     public float AttackCoolTime = 1.5f;
     public Transform PlayerPos;
     public Vector2 bSize;
+
+    int ComboStep = 0;  // ï¿½Þºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½
+    float ComboTime = 0.0f; //ï¿½Þºï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½
+    float ComboDelay = 0.8f;
+    bool isComboTimerRunning = false;
+
+
+
+
 
     PlayerController1 PlayerControl;
 
@@ -26,40 +36,73 @@ public class PlayerAttack : MonoBehaviour
     {
         AtcurTime += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0)) //¸¶¿ì½º ÁÂÅ¬¸¯À» ÇßÀ» ¶§
+        if (Input.GetMouseButtonDown(0)) //ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         {
-            
-            if (AtcurTime > AttackCoolTime)
-            {
-                PlayerControl.OnPlayerAttack();
-                Attack();
-                AtcurTime = 0.0f;
-                Debug.Log("°ø°Ý");
+            //ComboAttack();
+          if (AtcurTime > AttackCoolTime)
+             {
+                ComboAttack();
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½");
             }
             else
             {
-                Debug.Log("¾ÆÁ÷ ÄðÅ¸ÀÓÀÌ ¾ÈÁö³µ½À´Ï´Ù." + AtcurTime);
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½." + AtcurTime);
             }
 
         }
 
+        if (isComboTimerRunning)
+        {
+            ComboTime += Time.deltaTime;
+            if (ComboTime > ComboDelay) 
+            {
+                ComboStep = 0;
+                ComboTime = 0f;
+                isComboTimerRunning = false;
+                PlayerControl.OnPlayerComboAttack(ComboStep);
+                Debug.Log("ï¿½Þºï¿½ ï¿½Ê±ï¿½È­" + ComboStep);
+                AtcurTime = 0.0f;
+            }
+        }
+
+
+    }
+    void ComboAttack()
+    {
+        ComboTime = 0.0f;
+        isComboTimerRunning =true;
+
+        ComboStep++;
+        if (ComboStep > 3)
+            ComboStep = 1;
+        Debug.Log("ï¿½Þºï¿½ ï¿½Ü°ï¿½"+ ComboStep);
+        PlayerControl.OnPlayerComboAttack(ComboStep);
+        Attack();
+        //Debug.Log(" ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" );
+        //AtcurTime = 0.0f;
     }
 
     void Attack()
     {
-
-
-        Collider2D[] collider2Ds = Physics2D.OverlapBoxAll(PlayerPos.position, bSize, 0, enemyLayer);
+        Collider2D[] collider2Ds =
+        Physics2D.OverlapBoxAll(
+            PlayerPos.position,
+            bSize,
+            0,
+            enemyLayer
+        );
 
         foreach (Collider2D collider in collider2Ds)
         {
-           
-                Debug.Log("°ø°Ý ¼º°ø");
-
+        Debug.Log("ê³µê²© ì„±ê³µ");
+        EnemyHealth mh =
+            collider.GetComponent<EnemyHealth>();
+        if (mh != null)
+        {
+            mh.TakeDamage(1);
         }
     }
-
-
+}
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

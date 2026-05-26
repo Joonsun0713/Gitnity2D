@@ -34,24 +34,20 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //AtcurTime += Time.deltaTime;
+        AtcurTime += Time.deltaTime;
 
         if (Input.GetMouseButtonDown(0)) //마우스 좌클릭을 했을 때
         {
-            ComboAttack();
-           /* if (AtcurTime > AttackCoolTime)
+            //ComboAttack();
+          if (AtcurTime > AttackCoolTime)
              {
-            PlayerControl.OnPlayerAttack();
-
-            Attack();
-
-
+                ComboAttack();
                 Debug.Log("공격");
             }
             else
             {
                 Debug.Log("아직 쿨타임이 안지났습니다." + AtcurTime);
-            }*/
+            }
 
         }
 
@@ -65,6 +61,7 @@ public class PlayerAttack : MonoBehaviour
                 isComboTimerRunning = false;
                 PlayerControl.OnPlayerComboAttack(ComboStep);
                 Debug.Log("콤보 초기화" + ComboStep);
+                AtcurTime = 0.0f;
             }
         }
 

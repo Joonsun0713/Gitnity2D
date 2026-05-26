@@ -95,16 +95,6 @@ public class PlayerController1 : MonoBehaviour
         }
 
 
-        /*if (rb.velocity.y < -0.01f)
-        {
-            Debug.Log("y축 값" + Mathf.FloorToInt(rb.velocity.y));
-            OnPlayerJumpFall(true);
-        }
-        else if (rb.velocity.y >= 0.0f)
-        {
-            //Debug.Log("y축 값" + rb.velocity.y);
-            OnPlayerJumpFall(false);
-        }*/
         
         if (PJump.onGround == false && rb.velocity.y < 0.0f)
         {
@@ -122,7 +112,7 @@ public class PlayerController1 : MonoBehaviour
         RollSpeed = 1.0f;
         isRoll = false;
         Debug.Log("구르기 끝: Invincible = " + isRoll);
-        Debug.Log("스피드 원상태");
+        
     }
 
     public void Damage(int Hit)
@@ -147,7 +137,7 @@ public class PlayerController1 : MonoBehaviour
             }
 
         }
-        else if(isRoll || isShield) 
+        else if(isShield) 
         {
             ani.PlayerIsShieldAnimation();
             Debug.Log("방어 성공");

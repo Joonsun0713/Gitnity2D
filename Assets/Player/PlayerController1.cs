@@ -76,7 +76,7 @@ public class PlayerController1 : MonoBehaviour
                 UpdateStaminaUI();
             }
         }
-
+     
         if (Hz == 1)
         {
 

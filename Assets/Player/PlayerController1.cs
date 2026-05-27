@@ -56,6 +56,7 @@ public class PlayerController1 : MonoBehaviour
 
         PlayerLife = 100; // 캐릭터 체력 초기화
         Stamina = 100;    // 캐릭터 스태미너 초기화
+        lastActionTime = Time.time;
 
 }
 
@@ -64,21 +65,6 @@ public class PlayerController1 : MonoBehaviour
 
         RollCurTime += Time.deltaTime;
         Hz = Input.GetAxisRaw("Horizontal"); //이동키 값 받기
-
-        // --- 스태미너 자동 회복 로직 추가 ---
-        // 마지막 행동 후 0.1초가 지났다면 회복 시작
-        if (Time.time - lastActionTime > recoverDelay)
-        {
-            if (Stamina < 100)
-            {
-                // 회복량 대폭 향상 (초당 약 80 회복)
-                Stamina += (int)(ST_Recover * Time.deltaTime);
-                if (Stamina > 100) Stamina = 100;
-
-                // UI 갱신
-                UpdateStaminaUI();
-            }
-        }
      
         if (Hz == 1)
         {
@@ -120,6 +106,14 @@ public class PlayerController1 : MonoBehaviour
             }
         }
 
+        if (Stamina < 100 && Time.time - lastActionTime > recoverDelay)
+        {
+            Stamina += (int)(ST_Recover * Time.deltaTime);
+            if (Stamina > 100) Stamina = 100;
+
+            UpdateStaminaUI();
+        }
+
         if (Input.GetKey(KeyCode.E))
         {
             ani.PlayerShieldAnimation(true);
@@ -131,18 +125,6 @@ public class PlayerController1 : MonoBehaviour
             isShield = false;
         }
 
-
-        
-        if (PJump.onGround == false && rb.velocity.y < 0.0f)
-        {
-             OnPlayerJumpFall(true);
-        }
-        else if (PJump.onGround == true)
-        {
-                
-             OnPlayerJumpFall(false);
-        }
-        
     }
     void MovingRollSpeed()  // Invoke()를 이용한 구르기 스피드 조정
     {
@@ -150,21 +132,6 @@ public class PlayerController1 : MonoBehaviour
         isRoll = false;
         Debug.Log("구르기 끝: Invincible = " + isRoll);
         
-    }
-
-    void RecoverStamina()
-    {
-
-            if (Stamina < 100)
-            {
-                // 일정 시간마다 스태미너 회복
-                Stamina += (int)Time.deltaTime;
-                if (Stamina > 100) Stamina = 100;
-
-                // 여기서 UI를 즉시 갱신
-                UpdateStaminaUI();
-            }
-        Debug.Log("스태미너 회복 시도 중, 현재 값: " + Stamina + " / 마지막 행동 시간차: " + (Time.time - lastActionTime));
     }
 
     public void Damage(int Hit)
@@ -251,6 +218,15 @@ public class PlayerController1 : MonoBehaviour
             JumpA = false;
           
             
+        }
+
+        if (Stamina < 100 && Time.time - lastActionTime > recoverDelay)
+        {
+            Debug.Log("스태미너 회복 시도! 현재 값: " + Stamina); // 이 로그가 찍히는지 확인
+            Stamina += (int)(ST_Recover * Time.deltaTime);
+            if (Stamina > 100) Stamina = 100;
+
+            UpdateStaminaUI();
         }
 
     }

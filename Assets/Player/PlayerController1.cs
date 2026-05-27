@@ -54,7 +54,10 @@ public class PlayerController1 : MonoBehaviour
         PJump = GetComponentInChildren<PlayerJump>();
         ani = GetComponentInChildren<PlayerAnimator>();
 
-    }
+        PlayerLife = 100; // 캐릭터 체력 초기화
+        Stamina = 100;    // 캐릭터 스태미너 초기화
+
+}
 
     void Update()
     {
@@ -183,6 +186,7 @@ public class PlayerController1 : MonoBehaviour
             {
                 rb.velocity = Vector2.zero;
                 ani.PlayerDeathAnimation();
+                PlayerDeath.isGameOver = true;
             }
 
         }

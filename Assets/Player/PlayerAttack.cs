@@ -60,27 +60,13 @@ public class PlayerAttack : MonoBehaviour
 
 
     }
-    //void ComboAttack()
-    //{
-    //    ComboTime = 0.0f;
-    //    isComboTimerRunning =true;
-
-    //    ComboStep++;
-    //    if (ComboStep > 3)
-    //        ComboStep = 1;
-    //    Debug.Log("�޺� �ܰ�"+ ComboStep);
-    //    PlayerControl.OnPlayerComboAttack(ComboStep);
-    //    Attack();
-    //    //Debug.Log(" ���� ����" );
-    //    //AtcurTime = 0.0f;
-    //}
-
+ 
     void ComboAttack()
     {
         // 스태미너 체크 (예: 1회당 10 소모)
         if (PlayerController1.Stamina >= 10)
         {
-             PlayerControl.UseStamina(10); // 스태미너 소모
+            PlayerControl.UseStamina(10); // 스태미너 소모
 
             ComboTime = 0.0f;   // 콤보 시간 
             isComboTimerRunning = true; // 콤보간 시간 측정 켜기
@@ -99,9 +85,9 @@ public class PlayerAttack : MonoBehaviour
     {
         Collider2D[] collider2Ds =  Physics2D.OverlapBoxAll(PlayerPos.position,bSize,0,enemyLayer ); // 특정 범위 안에 있는 레이어를 감지
                                                                                                      // (위치, 박스 크기, 회전각도, 특정 레이어)
-                                                                                                     //Collider2D[] 배열에 collider2Ds의 정보 담기
+                                                                                                     //Collider2D[] 배열에 collider2Ds의 정보 담기 
 
-        foreach (Collider2D collider in collider2Ds)
+        foreach (Collider2D collider in collider2Ds)    // Collider2D 타입이고 collider2Ds에 있는 collider 개수마다 정보를 빼내서 실행
         {
         Debug.Log("공격 성공");
         EnemyHealth mh =

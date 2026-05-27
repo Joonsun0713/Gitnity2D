@@ -19,7 +19,7 @@ public class PlayerJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        onGround = Physics2D.Linecast(transform.position, (Vector2)transform.position + (Vector2.down * 0.2f), 1 << 6);
+        onGround = Physics2D.Linecast(transform.position, (Vector2)transform.position - (Vector2.up * 0.2f), 1 << 6);
         if (onGround) // 착지하면 점프 횟수 초기화
         {
             
@@ -36,7 +36,7 @@ public class PlayerJump : MonoBehaviour
                 //UnityEngine.Debug.Log("현재의 JumpCounter:" + JumpCounter);
                 PJump.JumpA = true;
                 //PJump.OnPlayerJumpUp();
-                ++JumpCounter;
+                JumpCounter++;
 
             }
 

@@ -16,7 +16,9 @@ public class PlayerController1 : MonoBehaviour
 
     [SerializeField]
     float JumpPower = 5.0f; // 점프값 
+
     public bool JumpA = false;  //점프 판단
+
     [SerializeField]
     float MoveSpeed = 5.0f; //이동 속도
     [SerializeField]

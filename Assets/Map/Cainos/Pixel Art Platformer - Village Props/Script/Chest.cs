@@ -1,37 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Cainos.LucidEditor;
 
-namespace Cainos.PixelArtPlatformer_VillageProps
+public class Chest : MonoBehaviour
 {
-    public class Chest : MonoBehaviour
+    public GameObject keyPrefab;
+
+    private bool opened = false;
+    private Animator animator;
+
+    void Start()
     {
-        [FoldoutGroup("Reference")]
-        public Animator animator;
+        animator = GetComponent<Animator>();
+    }
 
-        [FoldoutGroup("Runtime"), ShowInInspector, DisableInEditMode]
-        public bool IsOpened
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && !opened)
         {
-            get { return isOpened; }
-            set
+            opened = true;
+
+            // 상자 열림 애니메이션 실행
+            if (animator != null)
             {
-                isOpened = value;
-                animator.SetBool("IsOpened", isOpened);
+                animator.SetBool("IsOpened", true);
             }
-        }
-        private bool isOpened;
 
-        [FoldoutGroup("Runtime"),Button("Open"), HorizontalGroup("Runtime/Button")]
-        public void Open()
-        {
-            IsOpened = true;
-        }
+            // 열쇠 생성
+            Instantiate(
+                keyPrefab,
+                transform.position + new Vector3(0, 1.5f, 0),
+                Quaternion.identity
+            );
 
-        [FoldoutGroup("Runtime"), Button("Close"), HorizontalGroup("Runtime/Button")]
-        public void Close()
-        {
-            IsOpened = false;
+            Debug.Log("상자 열림!");
         }
     }
 }

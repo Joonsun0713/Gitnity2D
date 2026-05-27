@@ -16,7 +16,7 @@ public class PlayerAttack : MonoBehaviour
     float ComboDelay = 0.8f;
     bool isComboTimerRunning = false;
 
-
+    float Combo_st = PlayerController1.Stamina;
 
 
 
@@ -67,6 +67,21 @@ public class PlayerAttack : MonoBehaviour
 
 
     }
+    //void ComboAttack()
+    //{
+    //    ComboTime = 0.0f;
+    //    isComboTimerRunning =true;
+
+    //    ComboStep++;
+    //    if (ComboStep > 3)
+    //        ComboStep = 1;
+    //    Debug.Log("�޺� �ܰ�"+ ComboStep);
+    //    PlayerControl.OnPlayerComboAttack(ComboStep);
+    //    Attack();
+    //    //Debug.Log(" ���� ����" );
+    //    //AtcurTime = 0.0f;
+    //}
+
     void ComboAttack()
     {
         ComboTime = 0.0f;

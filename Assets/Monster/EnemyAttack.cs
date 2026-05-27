@@ -22,9 +22,9 @@ public class EnemyAttack : MonoBehaviour
 
             if (targetPlayer != null)
             {
-                targetPlayer.Damage(1);
+                targetPlayer.Damage(10);
 
-                Debug.Log("플레이어 공격 성공");
+                Debug.Log("데미지 확인");
 
                 StartCoroutine(AttackCooldown());
             }

@@ -17,8 +17,7 @@ public class PlayerAttack : MonoBehaviour
     bool isComboTimerRunning = false;
 
     float Combo_st = PlayerController1.Stamina;
-
-
+   
 
     PlayerController1 PlayerControl;
 
@@ -36,13 +35,15 @@ public class PlayerAttack : MonoBehaviour
     {
         AtcurTime += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0)) //마우스 좌클릭을 했을 때
+        if (Input.GetMouseButtonDown(0) && PlayerController1.Stamina > 0) //마우스 좌클릭을 했을 때 또는 스태미나가 0 이상일때
         {
             //ComboAttack();
           if (AtcurTime > AttackCoolTime)
              {
                 ComboAttack();
                 Debug.Log("공격");
+                Combo_st -= 10;
+                PlayerControl.UseStamina(10);   // 공격 시 스태미나 10 감소하게 설정
             }
             else
             {

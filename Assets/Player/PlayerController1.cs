@@ -106,14 +106,6 @@ public class PlayerController1 : MonoBehaviour
             }
         }
 
-        if (Stamina < 100 && Time.time - lastActionTime > recoverDelay)
-        {
-            Stamina += (int)(ST_Recover * Time.deltaTime);
-            if (Stamina > 100) Stamina = 100;
-
-            UpdateStaminaUI();
-        }
-
         if (Input.GetKey(KeyCode.E))
         {
             ani.PlayerShieldAnimation(true);

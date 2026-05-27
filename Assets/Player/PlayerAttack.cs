@@ -13,7 +13,7 @@ public class PlayerAttack : MonoBehaviour
 
     int ComboStep = 0;  // 콤보 공격 현재 단계
     float ComboTime = 0.0f; //콤보 시간 측정
-    float ComboDelay = 0.8f;
+    float ComboDelay = 0.8f;    // 콤보 최대 시간
     bool isComboTimerRunning = false;
 
     float Combo_st = PlayerController1.Stamina;

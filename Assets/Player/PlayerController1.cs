@@ -56,20 +56,7 @@ public class PlayerController1 : MonoBehaviour
        
         Hz = Input.GetAxisRaw("Horizontal"); //이동키 값 받기
 
-        // --- 스태미너 자동 회복 로직 추가 ---
-        // 마지막 행동 후 0.1초가 지났다면 회복 시작
-        if (Time.time - lastActionTime > recoverDelay)
-        {
-            if (Stamina < 100)
-            {
-                // 회복량 대폭 향상 (초당 약 80 회복)
-                Stamina += (int)(ST_Recover * Time.deltaTime);
-                if (Stamina > 100) Stamina = 100;
 
-                // UI 갱신
-                UpdateStaminaUI();
-            }
-        }
      
         if (Hz == 1)    // 오른쪽 이동
         {
@@ -255,6 +242,21 @@ public class PlayerController1 : MonoBehaviour
             JumpA = false;
           
             
+        }
+
+        // --- 스태미너 자동 회복 로직 추가 ---
+        // 마지막 행동 후 0.1초가 지났다면 회복 시작
+        if (Time.time - lastActionTime > recoverDelay)
+        {
+            if (Stamina < 100)
+            {
+                // 회복량 대폭 향상 (초당 약 80 회복)
+                Stamina += (int)(ST_Recover * Time.deltaTime);
+                if (Stamina > 100) Stamina = 100;
+
+                // UI 갱신
+                UpdateStaminaUI();
+            }
         }
 
     }

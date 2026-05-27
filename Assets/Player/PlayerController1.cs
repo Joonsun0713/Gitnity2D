@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField]
 
     float RollSpeed = 1;
-
+    bool CanRoll = true;
     bool isShield = false;
     bool isRoll = false;
 
@@ -37,15 +38,8 @@ public class PlayerController1 : MonoBehaviour
     public Image ST_Image;
 
     float RollCurTime = 0.0f;
-    [SerializeField]
+    [SerializeField]   
     float RollCoolTime = 2.5f;
-
-
-    //bool Playerfilp = false;  // 플레이어 좌우반전
-
-    //Animator animator;
-
-    //현재 애니메이션 상태
 
 
     void Start()
@@ -59,7 +53,7 @@ public class PlayerController1 : MonoBehaviour
     void Update()
     {
 
-        RollCurTime += Time.deltaTime;
+       
         Hz = Input.GetAxisRaw("Horizontal"); //이동키 값 받기
 
         // --- 스태미너 자동 회복 로직 추가 ---
@@ -77,35 +71,30 @@ public class PlayerController1 : MonoBehaviour
             }
         }
      
-        if (Hz == 1)
+        if (Hz == 1)    // 오른쪽 이동
         {
 
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(1, 1, 1);    
             ani.SetMoveAnimation(true);
             //Debug.Log("애니메이션 작동 여부");
 
         }
-        else if (Hz == -1)
+        else if (Hz == -1) //왼쪽 이동
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-            ani.SetMoveAnimation(true);
+            transform.localScale = new Vector3(-1, 1, 1);   //의미는 좌표 평면 대칭 이동 원리처럼
+            ani.SetMoveAnimation(true);                     //모든 점의 x 좌표값이 정반대로 이동하면서 반대 방향을 바라노는 것처럼 보인다.
+            
         }
         else if (Hz == 0)
         {
             ani.SetMoveAnimation(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))    // 왼쪽 쉬프트 구르기 사용
         {
-            if (RollCurTime > RollCoolTime && Stamina > 0)    // 스태미너가 0 보다 많을 때 구르기 사용
+            if (CanRoll && Stamina > 0)    // 스태미너가 0 보다 많을 때 구르기 사용
             {
-                UseStamina(20); // 구르기 스태미너 소모 (20으로 설정 예시)
-                ani.PlayerRollAnimation();
-                isRoll = true;
-                Debug.Log("구르기 시작: Invincible = " + isRoll);
-                 RollSpeed = 1.5f;
-                Invoke("MovingRollSpeed", 0.7f);
-                RollCurTime = 0.0f;
+                StartCoroutine(RollRoutine());
             }
             else if (Stamina <= 0)
             {
@@ -113,7 +102,7 @@ public class PlayerController1 : MonoBehaviour
             }
             else
             {
-                Debug.Log("아직 쿨타임이 안지났습니다." + RollCurTime);
+                Debug.Log("아직 쿨타임이 안지났습니다." );
             }
         }
 
@@ -130,25 +119,38 @@ public class PlayerController1 : MonoBehaviour
 
 
         
-        if (PJump.onGround == false && rb.velocity.y < 0.0f)
+        if (PJump.onGround == false && rb.velocity.y < 0.0f)    //onGround가 false이고 rb.velocity.y가 음수(낙하 중)일 때 낙하 애니메이션 켜기
         {
              OnPlayerJumpFall(true);
         }
-        else if (PJump.onGround == true)
+        else if (PJump.onGround == true)                        // OnGround가 true(땅에 착지)일 때 낙하 애니메이션 끄기 
         {
                 
              OnPlayerJumpFall(false);
         }
         
     }
-    void MovingRollSpeed()  // Invoke()를 이용한 구르기 스피드 조정
-    {
-         RollSpeed = 1.0f;
-        isRoll = false;
-        Debug.Log("구르기 끝: Invincible = " + isRoll);
-        
-    }
 
+    IEnumerator RollRoutine()   // 구르기 코루틴 
+    {
+        CanRoll = false;    // CanRoll false로 하여 쿨타임 전에 구르기 방지
+        UseStamina(20); // 구르기 스태미너 소모 (20으로 설정 예시)
+        ani.PlayerRollAnimation();  // 구르기 애니메이션 실행
+        isRoll = true;  // 플레이어 무적 상태 만들기
+        Debug.Log("구르기 시작: Invincible = " + isRoll);
+        RollSpeed = 1.5f;   // 구르기 사용시 이동속도 높이기
+        yield return new WaitForSeconds(0.7f);  // 코루틴에서 yield return new WaitForSeconds(float);는 매개변수로 입력한 숫자에 해당하는
+                                                // 초만큼 기다렸다가 다음 명령어 수행
+
+        RollSpeed = 1.0f;   // 0.7초 지난후(구르기 끝난 후) 원래 속력으로 돌아가기
+        isRoll = false;     // 무적 상태 해제 
+        Debug.Log("구르기 끝: Invincible = " + isRoll);
+
+        yield return new WaitForSeconds(1.5f);  // 구르기 쿨타임 1.5초 시작
+        CanRoll = true; //1.5초가 지나면 다시 구르기 사용 가능하게 CanRoll = true로 변경
+        Debug.Log("1.5초 경과");
+    }
+   
     void RecoverStamina()
     {
 
@@ -168,31 +170,37 @@ public class PlayerController1 : MonoBehaviour
     {
         if (PlayerLife <= 0) return;
 
-        if (!isShield && !isRoll)
+        if (!isShield && !isRoll)   //무적기 상태인 isShield와 isRoll가 모두 거짓일 때 히트 메소드 실행
         {
-            PlayerLife -= Hit;
-            Debug.Log("현재 HP = " + PlayerLife);
-
-
-            if (PlayerLife > 0)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, 0f);
-                rb.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-                ani.PlayerDeathAnimation();
-            }
+            StartCoroutine(HurtRoutine(Hit));
 
         }
-        else if(isShield) 
+        else if(isShield)  // 쉴드로 방어 시 효과 애니메이션 실행 *수정 예정*
         {
             ani.PlayerIsShieldAnimation();
             Debug.Log("방어 성공");
         }
     }
+    
+    IEnumerator HurtRoutine(int Hit)    // 코루틴 활용하여 공격 당할 때마다 쿨타임 주기
+    {
+        PlayerLife -= Hit;  // 
+        Debug.Log("현재 HP = " + PlayerLife);
 
+
+        if (PlayerLife > 0)
+        {
+            
+            rb.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);  //AddForce(방향* 힘 값, 힘의 종류), ForceMode2D.Impulse는 짦은 순간의 힘을 의미한다.
+        }
+        else            //PlayerLife가 0이하일 시 사망 애니메이션 실행
+        {
+
+            ani.PlayerDeathAnimation();
+        }
+
+        yield return new WaitForSeconds(3f);    // 3초 실행 
+    }
 
     public void OnPlayerComboAttack(int ComboStep)
     {
@@ -237,7 +245,7 @@ public class PlayerController1 : MonoBehaviour
     void FixedUpdate()
     {
 
-        rb.velocity = new Vector2(Hz * MoveSpeed * RollSpeed, rb.velocity.y);  // 이동 값
+        rb.velocity = new Vector2(Hz * MoveSpeed * RollSpeed, rb.velocity.y);  // X= (방향* 기본 속도 * 구르기 속도)
 
         if (JumpA)
         {

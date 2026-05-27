@@ -11,8 +11,8 @@ public class PlayerAttack : MonoBehaviour
     public Transform PlayerPos;
     public Vector2 bSize;
 
-    int ComboStep = 0;  // �޺� ���� ���� �ܰ�
-    float ComboTime = 0.0f; //�޺� �ð� ���
+    int ComboStep = 0;  // 콤보 공격 현재 단계
+    float ComboTime = 0.0f; //콤보 시간 측정
     float ComboDelay = 0.8f;
     bool isComboTimerRunning = false;
 
@@ -34,34 +34,27 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AtcurTime += Time.deltaTime;
-
-        if (Input.GetMouseButtonDown(0)) //���콺 ��Ŭ���� ���� ��
+       
+        if (Input.GetMouseButtonDown(0)) //마우스 좌클릭시 공격 실행
         {
-            //ComboAttack();
-          if (AtcurTime > AttackCoolTime)
-             {
+            
                 ComboAttack();
                 Debug.Log("����");
-            }
-            else
-            {
-                Debug.Log("���� ��Ÿ���� ���������ϴ�." + AtcurTime);
-            }
+           
 
         }
 
-        if (isComboTimerRunning)
+        if (isComboTimerRunning)    // 실행 시 콤보간 시간 측정 시작
         {
-            ComboTime += Time.deltaTime;
-            if (ComboTime > ComboDelay) 
+            ComboTime += Time.deltaTime;    //콤보 시간 측정
+            if (ComboTime > ComboDelay) //콤보 시간이 딜레이 시간을 넘어가면 콤보 초기화 
             {
-                ComboStep = 0;
-                ComboTime = 0f;
-                isComboTimerRunning = false;
-                PlayerControl.OnPlayerComboAttack(ComboStep);
-                Debug.Log("�޺� �ʱ�ȭ" + ComboStep);
-                AtcurTime = 0.0f;
+                ComboStep = 0;  //콤보단계 초기화
+                ComboTime = 0f; //콤보 시간 초기화
+                isComboTimerRunning = false;    //콤보간 시간 측정 끄기
+                PlayerControl.OnPlayerComboAttack(ComboStep); // 공격 애니메이션 끄기 
+                Debug.Log("공격" + ComboStep);
+               
             }
         }
 
@@ -89,12 +82,12 @@ public class PlayerAttack : MonoBehaviour
         {
              PlayerControl.UseStamina(10); // 스태미너 소모
 
-            ComboTime = 0.0f;
-            isComboTimerRunning = true;
-            ComboStep++;
-            if (ComboStep > 3) ComboStep = 1;
-            PlayerControl.OnPlayerComboAttack(ComboStep);
-            Attack();
+            ComboTime = 0.0f;   // 콤보 시간 
+            isComboTimerRunning = true; // 콤보간 시간 측정 켜기
+            ComboStep++;    // 콤보 단계 올리기
+            if (ComboStep > 3) ComboStep = 1;   // 콤보 단계가 3단계 이상 넘어갈 시 1단계로 되돌리기
+            PlayerControl.OnPlayerComboAttack(ComboStep);   //ComboStep에 따른 공격 애니메이션 실행
+            Attack();   // 공격 실행 
         }
         else
         {
@@ -102,15 +95,11 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    void Attack()
+    void Attack()   // 공격 메서드 
     {
-        Collider2D[] collider2Ds =
-        Physics2D.OverlapBoxAll(
-            PlayerPos.position,
-            bSize,
-            0,
-            enemyLayer
-        );
+        Collider2D[] collider2Ds =  Physics2D.OverlapBoxAll(PlayerPos.position,bSize,0,enemyLayer ); // 특정 범위 안에 있는 레이어를 감지
+                                                                                                     // (위치, 박스 크기, 회전각도, 특정 레이어)
+                                                                                                     //Collider2D[] 배열에 collider2Ds의 정보 담기
 
         foreach (Collider2D collider in collider2Ds)
         {

@@ -39,7 +39,7 @@ public class GoddessStatue : MonoBehaviour
            
 
           IsHealth = true;
-           Debug.Log("회복 가능");
+          Debug.Log("회복 가능");
 
           
         }

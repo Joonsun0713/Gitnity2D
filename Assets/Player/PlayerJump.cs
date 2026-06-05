@@ -10,15 +10,16 @@ public class PlayerJump : MonoBehaviour
     public bool onGround = false;
     int JumpCounter = 0;
 
-    PlayerController1 PJump;
+    
     void Start()
     {
-        PJump = GetComponentInParent<PlayerController1>();
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (PlayerController1.IsDead) return;
         onGround = Physics2D.Linecast(transform.position, (Vector2)transform.position - (Vector2.up * 0.2f), 1 << 6);
         if (onGround) // 착지하면 점프 횟수 초기화
         {
@@ -34,7 +35,7 @@ public class PlayerJump : MonoBehaviour
             if (onGround ||JumpCounter < 1) // 착지해 있거나, 점프 횟수가 충분하면 점프 가능
             {
                 //UnityEngine.Debug.Log("현재의 JumpCounter:" + JumpCounter);
-                PJump.JumpA = true;
+                PlayerController1.JumpA = true;
                 //PJump.OnPlayerJumpUp();
                 JumpCounter++;
 

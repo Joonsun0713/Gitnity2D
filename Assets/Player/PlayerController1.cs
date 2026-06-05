@@ -17,7 +17,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField]
     float JumpPower = 5.0f; // 점프값 
 
-    public bool JumpA = false;  //점프 판단
+    public static bool JumpA = false;  //점프 판단
 
     [SerializeField]
     float MoveSpeed = 5.0f; //이동 속도
@@ -28,6 +28,7 @@ public class PlayerController1 : MonoBehaviour
     bool isShield = false;
     bool isRoll = false;
 
+    public static bool IsDead = false;
     public static int PlayerLife = 100; // 캐릭터 체력
     public static int Stamina = 100;    // 캐릭터 스태미너
 
@@ -43,6 +44,7 @@ public class PlayerController1 : MonoBehaviour
     [SerializeField]   
     float RollCoolTime = 2.5f;
 
+    float ShieldStamina = 0.0f;
 
     void Start()
     {
@@ -54,30 +56,45 @@ public class PlayerController1 : MonoBehaviour
 
     void Update()
     {
-
+        if(IsDead) return;
        
         Hz = Input.GetAxisRaw("Horizontal"); //이동키 값 받기
 
-
-     
-        if (Hz == 1)    // 오른쪽 이동
+        if (isShield)
         {
+            ShieldStamina += Time.deltaTime;
+            if (ShieldStamina > 1.0f)
+            {
+                UseStamina(10);
+                ShieldStamina = 0.0f;
+            }
 
-            transform.localScale = new Vector3(1, 1, 1);    
-            ani.SetMoveAnimation(true);
-            //Debug.Log("애니메이션 작동 여부");
-
-        }
-        else if (Hz == -1) //왼쪽 이동
-        {
-            transform.localScale = new Vector3(-1, 1, 1);   //의미는 좌표 평면 대칭 이동 원리처럼
-            ani.SetMoveAnimation(true);                     //모든 점의 x 좌표값이 정반대로 이동하면서 반대 방향을 바라노는 것처럼 보인다.
-            
-        }
-        else if (Hz == 0)
-        {
+            Hz = 0;
             ani.SetMoveAnimation(false);
         }
+        else
+        {
+            if (Hz == 1)    // 오른쪽 이동
+            {
+
+                transform.localScale = new Vector3(1, 1, 1);
+                ani.SetMoveAnimation(true);
+                //Debug.Log("애니메이션 작동 여부");
+
+            }
+            else if (Hz == -1) //왼쪽 이동
+            {
+                transform.localScale = new Vector3(-1, 1, 1);   //의미는 좌표 평면 대칭 이동 원리처럼
+                ani.SetMoveAnimation(true);                     //모든 점의 x 좌표값이 정반대로 이동하면서 반대 방향을 바라노는 것처럼 보인다.
+
+            }
+            else if (Hz == 0)
+            {
+                ani.SetMoveAnimation(false);
+            }
+        }
+
+       
 
         if (Input.GetKeyDown(KeyCode.LeftShift))    // 왼쪽 쉬프트 구르기 사용
         {
@@ -98,8 +115,17 @@ public class PlayerController1 : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             ani.PlayerShieldAnimation(true);
-            isShield = true;
-            Hz = 0f;
+            if (Stamina > 0)
+            {
+                isShield = true;
+            }
+            else
+            {
+                Debug.Log("방패 스태미나 부족");
+                ani.PlayerShieldAnimation(false);
+                isShield = false;
+            }
+
         }
         else
         {
@@ -186,7 +212,7 @@ public class PlayerController1 : MonoBehaviour
         else            //PlayerLife가 0이하일 시 사망 애니메이션 실행
         {
 
-            ani.PlayerDeathAnimation();
+            Die();
         }
 
         yield return new WaitForSeconds(3f);    // 3초 실행 
@@ -230,6 +256,16 @@ public class PlayerController1 : MonoBehaviour
         if(Stamina < 0) Stamina = 0;
         lastActionTime = Time.time;     // 행동 시간 갱신
         UpdateStaminaUI();
+    }
+
+    void Die()  // 플레이어 사망 메서드
+    {
+        if(IsDead) return;
+        IsDead = true;
+        ani.PlayerDeathAnimation();
+        rb.velocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Static;
+
     }
 
     void FixedUpdate()

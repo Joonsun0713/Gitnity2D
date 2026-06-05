@@ -34,7 +34,7 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (PlayerController1.IsDead) return;
         if (Input.GetMouseButtonDown(0)) //마우스 좌클릭시 공격 실행
         {
             

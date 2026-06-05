@@ -39,7 +39,7 @@ public class PlayerAttack : MonoBehaviour
         {
             
                 ComboAttack();
-                Debug.Log("����");
+                Debug.Log("공격");
            
 
         }

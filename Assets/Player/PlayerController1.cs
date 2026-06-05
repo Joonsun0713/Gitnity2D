@@ -99,6 +99,7 @@ public class PlayerController1 : MonoBehaviour
         {
             ani.PlayerShieldAnimation(true);
             isShield = true;
+            Hz = 0f;
         }
         else
         {

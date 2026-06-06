@@ -6,11 +6,12 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     Animator animator;
-
+    PlayerAttack pattack;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        pattack = GetComponentInChildren<PlayerAttack>();
     }
 
     // Update is called once per frame
@@ -19,6 +20,11 @@ public class PlayerAnimator : MonoBehaviour
         
     }
 
+    void PlayerAttackEnvent()
+    {
+        pattack.Attack();
+        Debug.Log("공격 애니메이션 이벤트 성공");
+    }
     public void SetMoveAnimation(bool isMoving)
     {
         

@@ -25,7 +25,7 @@ public class PlayerController1 : MonoBehaviour
 
     float RollSpeed = 1;
     bool CanRoll = true;
-    bool isShield = false;
+    public static bool isShield = false;
     bool isRoll = false;
 
     public static bool IsDead = false;
@@ -50,7 +50,7 @@ public class PlayerController1 : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         PJump = GetComponentInChildren<PlayerJump>();
-        ani = GetComponentInChildren<PlayerAnimator>();
+        ani = GetComponent<PlayerAnimator>();
 
     }
 

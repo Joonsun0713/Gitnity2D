@@ -10,12 +10,6 @@ public class PlayerJump : MonoBehaviour
     public bool onGround = false;
     int JumpCounter = 0;
 
-    
-    void Start()
-    {
-       
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -44,7 +38,6 @@ public class PlayerJump : MonoBehaviour
         }
         //Debug.Log("onGround = "+ onGround);
     }
-
 
     void OnDrawGizmos()
     {

@@ -1,34 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerController1 : MonoBehaviour
 {
 
-    Rigidbody2D rb;
+    Rigidbody2D rb; 
     PlayerJump PJump;
-
     PlayerAnimator ani;
-    float Hz;
+
+    //이동 변수
+    float Hz;   //키보드 좌우 입력값 받기 위한 저장 -1~1
 
     [SerializeField]
-    float JumpPower = 5.0f; // 점프값 
-
-    public static bool JumpA = false;  //점프 판단
-
+    float JumpPower = 5.0f; // 점프값 수치
     [SerializeField]
     float MoveSpeed = 5.0f; //이동 속도
     [SerializeField]
+    float RollSpeed = 1;    //구르기 속도 평소 1, 구르기 시 상승
 
-    float RollSpeed = 1;
-    bool CanRoll = true;
-    public static bool isShield = false;
+    // 상태 판단
+    public static bool JumpA = false;  //점프 가능 신호
+    bool CanRoll = true;    // 구르기 가능 판단
+    public static bool isShield = false;    // 쉴드 상태인지 판단하기 위한 변수
     bool isRoll = false;
+    public static bool IsDead = false;  // 플레이어 사망 판정
 
-    public static bool IsDead = false;
+
     public static int PlayerLife = 100; // 캐릭터 체력
     public static int Stamina = 100;    // 캐릭터 스태미너
 
@@ -37,14 +37,10 @@ public class PlayerController1 : MonoBehaviour
 
     int ST_Recover = 80;
 
-   
     public Image ST_Image;
 
-    float RollCurTime = 0.0f;
-    [SerializeField]   
-    float RollCoolTime = 2.5f;
 
-    float ShieldStamina = 0.0f;
+    float ShieldStamina = 0.0f; // 쉴드 작동 시 스태미나 누적 계산
 
     void Start()
     {

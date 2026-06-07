@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    float AtcurTime = 2.0f;
-    public float AttackCoolTime = 1.5f;
+    
     public Transform PlayerPos;
     public Vector2 bSize;
 
@@ -16,9 +15,7 @@ public class PlayerAttack : MonoBehaviour
     float ComboDelay = 0.8f;    // 콤보 최대 시간
     bool isComboTimerRunning = false;
 
-    float Combo_st = PlayerController1.Stamina;
-
-
+    //float Combo_st = PlayerController1.Stamina;
 
     PlayerController1 PlayerControl;
 
@@ -27,11 +24,10 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        //ani = GetComponent<PlayerAnimator>();
         PlayerControl = GetComponentInParent<PlayerController1>();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (PlayerController1.IsDead) return;
@@ -94,6 +90,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

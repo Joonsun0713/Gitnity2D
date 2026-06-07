@@ -31,7 +31,7 @@ public class PlayerController1 : MonoBehaviour
     public float recoverDelay = 0.1f; // 공격 후 회복 대기 시간
     float lastActionTime = 0.0f;
 
-    int ST_Recover = 80;
+    int ST_Recover = 51;
 
    
     public Image ST_Image;

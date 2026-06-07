@@ -14,7 +14,9 @@ public class TargetUI : MonoBehaviour
     // 타겟이 바뀔 때 호출
     public void SetTarget(string name, float healthPercent)
     {
-        uiPanel.SetActive(true); // UI 켜기
+        if (uiPanel == null) return; // UI 패널 자체가 없으면 무시
+
+        uiPanel.SetActive(true);
         nameText.text = name;
         healthBar.fillAmount = healthPercent;
     }

@@ -19,6 +19,7 @@ public class PlayerAnimator : MonoBehaviour
         pattack.Attack();
         Debug.Log("공격 애니메이션 이벤트 성공");
     }   
+
     public void SetMoveAnimation(bool isMoving) // 이동 애니메이션
     {
         

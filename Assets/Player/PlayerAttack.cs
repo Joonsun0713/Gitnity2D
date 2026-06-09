@@ -65,7 +65,6 @@ public class PlayerAttack : MonoBehaviour
             ComboStep++;    // 콤보 단계 올리기
             if (ComboStep > 3) ComboStep = 1;   // 콤보 단계가 3단계 이상 넘어갈 시 1단계로 되돌리기
             PlayerControl.OnPlayerComboAttack(ComboStep);   //ComboStep에 따른 공격 애니메이션 실행
-            //Attack();   // 공격 실행 
         }
         else
         {

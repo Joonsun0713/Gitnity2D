@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class TargetUI : MonoBehaviour
 {
     public static TargetUI Instance; // 어디서든 접근 가능하게 싱글톤 패턴 사용
+
     public Text nameText;    // 몬스터 이름 표시용 Text
     public Image healthBar;  // 몬스터 체력 바 (Fill Amount 방식)
     public GameObject uiPanel; // 중앙 UI 패널
@@ -26,4 +26,6 @@ public class TargetUI : MonoBehaviour
     {
         uiPanel.SetActive(false);
     }
+
+
 }

@@ -4,39 +4,27 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField]
     private int maxHp = 5;          // 몬스터의 최대 체력
-    private int currentHp;
-    private bool isDead = false;    // 몬스터 데스 확인
+    private int currentHp;          // 몬스터의 현재 체력 설정
 
     [SerializeField]
-    private string EnemyName = "Monster";
+    private string EnemyName;       // 몬스터의 이름 Inspector을 통하여, 이름 수정 가능
+
+    
 
     void Start()
     {
-
-        if (EnemyName == "Goblin")
+        switch (EnemyName)          // Inspector 에 있는 몬스터의 이름에 따라 최대 체력이 달라진다.
         {
-            maxHp = 5;
-            currentHp = maxHp;
+            case "Goblin": maxHp = 5; break;
+            case "Skeleton": maxHp = 10; break;
+            case "Mushroom": maxHp = 20; break;
         }
-        else if (EnemyName == "Skeleton")
-        {
-            maxHp = 10;
-            currentHp = maxHp;
-        }
-        else if (EnemyName == "Mushroom")
-        {
-            maxHp = 20;
-            currentHp = maxHp;
-        }
-        
 
-
+        currentHp = maxHp; // 공통으로 한 번만 할당
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage)  // 몬스터 체력 계산 및 UI 갱신
     {
-        if (isDead) return;
-
         currentHp -= damage;
 
         Debug.Log(EnemyName + " 현재 체력: " + currentHp);
@@ -53,16 +41,17 @@ public class EnemyHealth : MonoBehaviour
                 float hpPercent = (float)currentHp / maxHp;
                 TargetUI.Instance.SetTarget(EnemyName, hpPercent);
 
-                TargetUI.Instance.CancelInvoke("HideUI");
+                TargetUI.Instance.CancelInvoke("HideUI"); 
                 TargetUI.Instance.Invoke("HideUI", 2.0f);
+                // Invoke 를 통하여 2초 후에 HIdeUI 가 작동하도록 설정
+                // Invoke 취소, 연속 공격 기능도 있기에 공격하다가 Invoke 가 동작하는 것을 방지. 
             }
         }
     }
 
-    void Die()
+    void Die()  // 몬스터 죽음 확인 및 UI 숨김
     {
         Debug.Log(gameObject.name + "가 Die() 함수에 진입했습니다.");
-        isDead = true;
 
         // 1. 죽는 즉시 UI를 숨깁니다.
         if (TargetUI.Instance != null)
@@ -82,5 +71,8 @@ public class EnemyHealth : MonoBehaviour
 
         // 3. 1초 뒤 오브젝트 삭제
         Destroy(gameObject, 1.0f);
+
+      
     }
+
 }

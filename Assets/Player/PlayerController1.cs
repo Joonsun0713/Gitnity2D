@@ -214,7 +214,6 @@ public class PlayerController1 : MonoBehaviour
 
         if (Stamina < 100 && Time.time - lastActionTime > recoverDelay)
         {
-            Debug.Log("스태미너 회복 시도! 현재 값: " + Stamina); // 이 로그가 찍히는지 확인
             Stamina += (int)(ST_Recover * Time.deltaTime);
             if (Stamina > 100) Stamina = 100;
 

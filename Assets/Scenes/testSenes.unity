@@ -140,8 +140,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2658680e068f234ebaf6cacd470154c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 5
-  EnemyName: Monster
+  maxHp: 0
+  EnemyName: Mushroom
+--- !u!114 &58112369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58112361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21828f92c6ba2324c9cad99c30ed799f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 795327954}
+  healthBar: {fileID: 1923572481}
+  uiPanel: {fileID: 1811092690}
 --- !u!1 &120175204
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,7 +1076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2658680e068f234ebaf6cacd470154c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 5
+  maxHp: 0
   EnemyName: Skeleton
 --- !u!114 &296811049
 MonoBehaviour:
@@ -1077,7 +1092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 795327954}
   healthBar: {fileID: 1923572481}
-  uiPanel: {fileID: 296811041}
+  uiPanel: {fileID: 1811092690}
 --- !u!1 &382412155
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,7 +1170,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 382412155}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2, y: 0.75, z: 0}
+  m_LocalPosition: {x: 2.61, y: 0.51, z: 0}
   m_LocalScale: {x: 11.221553, y: 4.760698, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2301,7 +2316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 795327954}
   healthBar: {fileID: 1923572481}
-  uiPanel: {fileID: 1187978035}
+  uiPanel: {fileID: 1811092690}
 --- !u!1 &1275086309
 GameObject:
   m_ObjectHideFlags: 0
@@ -3037,7 +3052,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1811092691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3535,6 +3550,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 855993589590907032, guid: d43ab6e1ce85b9349a0ac65a5e8017de, type: 3}
+      propertyPath: nextMove
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 855993589590907033, guid: d43ab6e1ce85b9349a0ac65a5e8017de, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -3549,11 +3568,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 855993589590907033, guid: d43ab6e1ce85b9349a0ac65a5e8017de, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.83
+      value: 5.86
       objectReference: {fileID: 0}
     - target: {fileID: 855993589590907033, guid: d43ab6e1ce85b9349a0ac65a5e8017de, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.17
+      value: 3.56
       objectReference: {fileID: 0}
     - target: {fileID: 855993589590907033, guid: d43ab6e1ce85b9349a0ac65a5e8017de, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3642,11 +3661,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2052061905310546725, guid: e48222d0e881a30469ea257ec774a321, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.13
+      value: -0.75
       objectReference: {fileID: 0}
     - target: {fileID: 2052061905310546725, guid: e48222d0e881a30469ea257ec774a321, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.09
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 2052061905310546725, guid: e48222d0e881a30469ea257ec774a321, type: 3}
       propertyPath: m_LocalPosition.z

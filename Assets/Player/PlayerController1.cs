@@ -33,7 +33,7 @@ public class PlayerController1 : MonoBehaviour
     public float recoverDelay = 0.1f; // 공격 후 회복 대기 시간
     float lastActionTime = 0.0f;
 
-    int ST_Recover = 80;
+    int ST_Recover = 51;
 
     public Image ST_Image;
 
@@ -44,7 +44,11 @@ public class PlayerController1 : MonoBehaviour
         PJump = GetComponentInChildren<PlayerJump>();
         ani = GetComponent<PlayerAnimator>();
 
-    }
+        PlayerLife = 100; // 캐릭터 체력 초기화
+        Stamina = 100;    // 캐릭터 스태미너 초기화
+        lastActionTime = Time.time;
+
+}
 
     void Update()
     {

@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a86685913b5e6e48933193effef04cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SC: 
+  SC: testSenes
 --- !u!1 &215734798
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,7 +730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a86685913b5e6e48933193effef04cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SC: 
+  SC: testSenes
 --- !u!1 &699791489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a86685913b5e6e48933193effef04cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SC: 
+  SC: testSenes
 --- !u!1 &1243605516
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,7 +1457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a86685913b5e6e48933193effef04cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SC: 
+  SC: testSenes
 --- !u!1 &1265740243
 GameObject:
   m_ObjectHideFlags: 0

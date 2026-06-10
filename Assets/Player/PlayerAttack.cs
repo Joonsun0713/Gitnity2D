@@ -6,18 +6,16 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    float AtcurTime = 2.0f;
-    public float AttackCoolTime = 1.5f;
+    
     public Transform PlayerPos;
     public Vector2 bSize;
 
     int ComboStep = 0;  // 콤보 공격 현재 단계
-    float ComboTime = 0.0f; //콤보 시간 재기
-    float ComboDelay = 0.8f;
+    float ComboTime = 0.0f; //콤보 시간 측정
+    float ComboDelay = 0.8f;    // 콤보 최대 시간
     bool isComboTimerRunning = false;
 
-    float Combo_st = PlayerController1.Stamina;
-   
+    //float Combo_st = PlayerController1.Stamina;
 
     PlayerController1 PlayerControl;
 
@@ -26,89 +24,61 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        //ani = GetComponent<PlayerAnimator>();
         PlayerControl = GetComponentInParent<PlayerController1>();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        AtcurTime += Time.deltaTime;
-
-        if (Input.GetMouseButtonDown(0) && PlayerController1.Stamina > 0) //마우스 좌클릭을 했을 때 또는 스태미나가 0 이상일때
+        if (PlayerController1.IsDead) return;
+        if (Input.GetMouseButtonDown(0)) //마우스 좌클릭시 공격 실행
         {
-            //ComboAttack();
-          if (AtcurTime > AttackCoolTime)
-             {
                 ComboAttack();
-                Debug.Log("공격");
-                Combo_st -= 10;
-                PlayerControl.UseStamina(10);   // 공격 시 스태미나 10 감소하게 설정
-            }
-            else
-            {
-                Debug.Log("아직 쿨타임이 안지났습니다." + AtcurTime);
-            }
-
         }
 
-        if (isComboTimerRunning)
+        if (isComboTimerRunning)    // 실행 시 콤보간 시간 측정 시작
         {
-            ComboTime += Time.deltaTime;
-            if (ComboTime > ComboDelay) 
+            ComboTime += Time.deltaTime;    //콤보 시간 측정
+            if (ComboTime > ComboDelay) //콤보 시간이 딜레이 시간을 넘어가면 콤보 초기화 
             {
-                ComboStep = 0;
-                ComboTime = 0f;
-                isComboTimerRunning = false;
-                PlayerControl.OnPlayerComboAttack(ComboStep);
-                Debug.Log("콤보 초기화" + ComboStep);
-                AtcurTime = 0.0f;
+                ComboStep = 0;  //콤보단계 초기화
+                ComboTime = 0f; //콤보 시간 초기화
+                isComboTimerRunning = false;    //콤보간 시간 측정 끄기
+                PlayerControl.OnPlayerComboAttack(ComboStep); // 공격 애니메이션 끄기 
+                Debug.Log("공격" + ComboStep);
+               
             }
         }
 
 
     }
-    //void ComboAttack()
-    //{
-    //    ComboTime = 0.0f;
-    //    isComboTimerRunning =true;
-
-    //    ComboStep++;
-    //    if (ComboStep > 3)
-    //        ComboStep = 1;
-    //    Debug.Log("�޺� �ܰ�"+ ComboStep);
-    //    PlayerControl.OnPlayerComboAttack(ComboStep);
-    //    Attack();
-    //    //Debug.Log(" ���� ����" );
-    //    //AtcurTime = 0.0f;
-    //}
-
+ 
     void ComboAttack()
     {
-        ComboTime = 0.0f;
-        isComboTimerRunning =true;
+        // 스태미너 체크 (예: 1회당 10 소모)
+        if (PlayerController1.Stamina >= 10)
+        {
+            PlayerControl.UseStamina(10); // 스태미너 소모
 
-        ComboStep++;
-        if (ComboStep > 3)
-            ComboStep = 1;
-        Debug.Log("콤보 단계" + ComboStep);
-        PlayerControl.OnPlayerComboAttack(ComboStep);
-        Attack();
-        //Debug.Log(" 공격 성공" );
-        //AtcurTime = 0.0f;
+            ComboTime = 0.0f;   // 콤보 시간 
+            isComboTimerRunning = true; // 콤보간 시간 측정 켜기
+            ComboStep++;    // 콤보 단계 올리기
+            if (ComboStep > 3) ComboStep = 1;   // 콤보 단계가 3단계 이상 넘어갈 시 1단계로 되돌리기
+            PlayerControl.OnPlayerComboAttack(ComboStep);   //ComboStep에 따른 공격 애니메이션 실행
+        }
+        else
+        {
+            Debug.Log("스태미너가 부족합니다!");
+        }
     }
 
-    void Attack()
+   public void Attack()   // 공격 메서드 
     {
-        Collider2D[] collider2Ds =
-        Physics2D.OverlapBoxAll(
-            PlayerPos.position,
-            bSize,
-            0,
-            enemyLayer
-        );
+        Collider2D[] collider2Ds =  Physics2D.OverlapBoxAll(PlayerPos.position,bSize,0,enemyLayer ); // 특정 범위 안에 있는 레이어를 감지
+                                                                                                     // (위치, 박스 크기, 회전각도, 특정 레이어)
+                                                                                                     //Collider2D[] 배열에 collider2Ds의 정보 담기 
 
-        foreach (Collider2D collider in collider2Ds)
+        foreach (Collider2D collider in collider2Ds)    // Collider2D 타입이고 collider2Ds에 있는 collider 개수마다 정보를 빼내서 실행
         {
         Debug.Log("공격 성공");
         EnemyHealth mh =
@@ -119,6 +89,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

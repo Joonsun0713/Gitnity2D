@@ -252,6 +252,8 @@ public class PlayerController1 : MonoBehaviour
         if(IsDead) return;
         IsDead = true;
         ani.PlayerDeathAnimation();
+        PlayerDeath.isGameOver = true;
+
         rb.velocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Static;
 

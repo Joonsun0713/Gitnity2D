@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    float AtcurTime = 2.0f;
-    public float AttackCoolTime = 1.5f;
+    
     public Transform PlayerPos;
     public Vector2 bSize;
 
@@ -16,9 +15,7 @@ public class PlayerAttack : MonoBehaviour
     float ComboDelay = 0.8f;    // 콤보 최대 시간
     bool isComboTimerRunning = false;
 
-    float Combo_st = PlayerController1.Stamina;
-
-
+    //float Combo_st = PlayerController1.Stamina;
 
     PlayerController1 PlayerControl;
 
@@ -27,21 +24,16 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        //ani = GetComponent<PlayerAnimator>();
         PlayerControl = GetComponentInParent<PlayerController1>();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (PlayerController1.IsDead) return;
         if (Input.GetMouseButtonDown(0)) //마우스 좌클릭시 공격 실행
         {
-            
                 ComboAttack();
-                Debug.Log("공격");
-           
-
         }
 
         if (isComboTimerRunning)    // 실행 시 콤보간 시간 측정 시작
@@ -73,7 +65,6 @@ public class PlayerAttack : MonoBehaviour
             ComboStep++;    // 콤보 단계 올리기
             if (ComboStep > 3) ComboStep = 1;   // 콤보 단계가 3단계 이상 넘어갈 시 1단계로 되돌리기
             PlayerControl.OnPlayerComboAttack(ComboStep);   //ComboStep에 따른 공격 애니메이션 실행
-            Attack();   // 공격 실행 
         }
         else
         {
@@ -81,7 +72,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    void Attack()   // 공격 메서드 
+   public void Attack()   // 공격 메서드 
     {
         Collider2D[] collider2Ds =  Physics2D.OverlapBoxAll(PlayerPos.position,bSize,0,enemyLayer ); // 특정 범위 안에 있는 레이어를 감지
                                                                                                      // (위치, 박스 크기, 회전각도, 특정 레이어)
@@ -98,6 +89,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;

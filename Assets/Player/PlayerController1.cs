@@ -253,11 +253,35 @@ public class PlayerController1 : MonoBehaviour
 
     void Die()  // 플레이어 사망 메서드
     {
+<<<<<<< HEAD
         if(IsDead) return;
         IsDead = true;
         ani.PlayerDeathAnimation();
         rb.velocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Static;
+=======
+
+        rb.velocity = new Vector2(Hz * MoveSpeed * RollSpeed, rb.velocity.y);  // 이동 값
+
+        if (JumpA)
+        {
+            //Debug.Log("점프 실행중");
+            rb.velocity = new Vector2(rb.velocity.x, JumpPower);
+            OnPlayerJumpUp();
+            JumpA = false;
+          
+            
+        }
+
+        if (Stamina < 100 && Time.time - lastActionTime > recoverDelay)
+        {
+            Debug.Log("스태미너 회복 시도! 현재 값: " + Stamina); // 이 로그가 찍히는지 확인
+            Stamina += (int)(ST_Recover * Time.deltaTime);
+            if (Stamina > 100) Stamina = 100;
+
+            UpdateStaminaUI();
+        }
+>>>>>>> parent of b18dea9 (몬스터 UI 및 씬 이동 수정)
 
     }
 

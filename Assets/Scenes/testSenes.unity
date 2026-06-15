@@ -157,6 +157,25 @@ MonoBehaviour:
   nameText: {fileID: 578259624}
   healthBar: {fileID: 506473806}
   uiPanel: {fileID: 1797869585}
+--- !u!1 &65384126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3048119157711082387, guid: 475bd69f786a12f48a1ed71a9a9c9ce1, type: 3}
+  m_PrefabInstance: {fileID: 645601933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &65384127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65384126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad42a08ac53fbb947967418bf1a889bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyPrefab: {fileID: 2474400470573170514, guid: 0ce04b2a74b7fd449af90c10e01d5b40, type: 3}
+  keySpawnPoint: {fileID: 0}
 --- !u!1 &176628919 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1930658972954576807, guid: f7ccc2f5f92928543985db4ba03ea697, type: 3}

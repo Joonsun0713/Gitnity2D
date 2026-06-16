@@ -14,10 +14,11 @@ public class SceneChange : MonoBehaviour
         string sceneName = EventSystem.current.currentSelectedGameObject.name;
         Debug.Log(sceneName);
 
-        if (sceneName == "Stage_1" || sceneName == "Stage_2" || sceneName == "Stage_3" || sceneName == "Stage_4" || sceneName == "Try_Button")
+        if (sceneName == "Stage_2" || sceneName == "Stage_3" || sceneName == "Stage_4" || sceneName == "Try_Button")
             SC = "testSenes";   // 특정 스테이지로 가는 버튼일 경우 testScene 으로 가도록 설정
                                 // 추가 수정으로 새로운 스테이지를 만들 때마다, else if 를 추가하여 각각 새로운 스테이지를 이동하게끔 수정
-
+        else if (sceneName == "Stage_1")
+            SC = "Stage1";
 
         else if (sceneName == "Start_Button" || sceneName == "Back_Button")
             SC = "StageSelect"; // 스테이지 밖으로 벗아날 때, 또는 타이틀 화면에서 시작 버튼을 눌렀을 때, 스테이지 선택창으로 이동

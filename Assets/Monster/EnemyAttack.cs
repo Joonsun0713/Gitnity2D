@@ -23,11 +23,11 @@ public class EnemyAttack : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    /*void OnTriggerEnter2D(Collider2D other)
     {
         RegisterPlayer(other);
         TryStartAttack();
-    }
+    }*/
 
     void OnTriggerStay2D(Collider2D other)
     {

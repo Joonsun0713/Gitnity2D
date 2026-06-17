@@ -8,6 +8,7 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField]
     private string EnemyName;       // 몬스터의 이름 Inspector을 통하여, 이름 수정 가능
+    private Animator animator;
 
 
 
@@ -19,7 +20,7 @@ public class EnemyHealth : MonoBehaviour
             case "Skeleton": maxHp = 5; break;
             case "Mushroom": maxHp = 10; break;
         }
-
+        animator = GetComponent<Animator>();
         currentHp = maxHp; // 공통으로 한 번만 할당
     }
 
@@ -71,13 +72,10 @@ public class EnemyHealth : MonoBehaviour
         EnemyMove move = GetComponent<EnemyMove>();
         if (move != null) move.enabled = false;
 
-        Collider2D col = GetComponent<Collider2D>();
-        if (col != null) col.enabled = false;
-
-        // 3. 1초 뒤 오브젝트 삭제
-        Destroy(gameObject, 1.0f);
-
-
+        // 3. Die 애니메이션 재생
+        animator.SetTrigger("isDie");
+        // 4. 1초 뒤 오브젝트 삭제
+        Destroy(gameObject, 1.5f);
     }
 
 }

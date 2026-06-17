@@ -16,9 +16,9 @@ public class EnemyHealth : MonoBehaviour
     {
         switch (EnemyName)          // Inspector 에 있는 몬스터의 이름에 따라 최대 체력이 달라진다.
         {
-            case "Goblin": maxHp = 5; break;
-            case "Skeleton": maxHp = 10; break;
-            case "Mushroom": maxHp = 20; break;
+            case "Goblin": maxHp = 3; break;
+            case "Skeleton": maxHp = 5; break;
+            case "Mushroom": maxHp = 10; break;
         }
         animator = GetComponent<Animator>();
         currentHp = maxHp; // 공통으로 한 번만 할당
@@ -26,6 +26,11 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damage)  // 몬스터 체력 계산 및 UI 갱신
     {
+        if (TargetUI.Instance == null)
+        {
+            TargetUI.Instance = FindObjectOfType<TargetUI>();
+        }
+
         currentHp -= damage;
 
         Debug.Log(EnemyName + " 현재 체력: " + currentHp);

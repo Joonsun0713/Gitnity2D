@@ -8,6 +8,9 @@ public class EnemyMove : MonoBehaviour
     Animator anim;
     SpriteRenderer spriteRenderer;
 
+    EnemyAttack attackScript; // 선언
+
+    
     public int nextMove;
 
     private Transform player;
@@ -21,6 +24,7 @@ public class EnemyMove : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        attackScript = GetComponent<EnemyAttack>();
     }
 
     void Start()
@@ -33,6 +37,7 @@ public class EnemyMove : MonoBehaviour
     {
         while (!isChasing) // 쫓고 있지 않을 때만 실행
         {
+            
             // 1. 랜덤 방향 결정 (-1, 0, 1)
             nextMove = Random.Range(-1, 2);
 
@@ -75,6 +80,15 @@ public class EnemyMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        // 공격 중이면 이동 애니메이션 업데이트를 건너뜀 (안전하게 체크)
+        if (attackScript != null && attackScript.isAttacking)
+        {
+            // 공격 중일 때는 이동 속도를 0으로 만들어 멈추게 함
+            rigid.velocity = new Vector2(0, rigid.velocity.y);
+            return;
+        }
+
+        // 1. 추격 로직 (기존과 동일)
         if (isChasing && player)
         {
             if (player.position.x > transform.position.x)
@@ -82,34 +96,21 @@ public class EnemyMove : MonoBehaviour
                 nextMove = 1;
                 spriteRenderer.flipX = false;
             }
-            else
+            else if (player.position.x < transform.position.x) // 수정: else 대신 조건 추가
             {
-                // 배회 중일 때만 레이캐스트 검사
-                Vector2 frontVec = new Vector2(rigid.position.x + (nextMove * 0.5f), rigid.position.y - 0.5f);
-                RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector2.down, 1f, LayerMask.GetMask("ground"));
-
-                if (rayHit.collider == null && nextMove != 0)
-                {
-                    // 절벽 발견 시 이동 정지 후 코루틴 내에서 다음 로직 수행
-                    nextMove = 0;
-                }
+                nextMove = -1;
+                spriteRenderer.flipX = true;
             }
+
+            // 절벽 체크 로직...
         }
 
-        //rigid.velocity = new Vector2(nextMove, rigid.velocity.y);
-
-        //Vector2 frontVec = new Vector2(rigid.position.x + nextMove * 0.5f, rigid.position.y - 0.5f);
-        //Debug.DrawRay(frontVec, Vector3.down, new Color(0, 1, 0));
-
-        //RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector2.down, 1f, LayerMask.GetMask("ground"));
-
-        //if (rayHit.collider == null)
-        //{
-        //    Turn();
-        //}
+        // ... 기존 이동 및 애니메이션 코드 ...
+        bool isMoving = Mathf.Abs(nextMove) > 0;
+        anim.SetBool("Run", isMoving);
+        anim.SetBool("Idle", !isMoving);
 
         rigid.velocity = new Vector2(nextMove, rigid.velocity.y);
-        anim.SetInteger("WalkSpeed", Mathf.Abs(nextMove));
     }
 
     void Think()

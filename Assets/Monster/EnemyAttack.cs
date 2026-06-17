@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
+
+
     [SerializeField]
     private LayerMask PlayerLayer;
 
@@ -17,6 +19,8 @@ public class EnemyAttack : MonoBehaviour
 
     private bool isPlayerInRange = false;
     private bool canAttack = true;
+
+    public bool isAttacking = false;
 
     void Start()
     {
@@ -62,9 +66,9 @@ public class EnemyAttack : MonoBehaviour
 
     void TryStartAttack()
     {
-        if (!canAttack) return;
-        if (!isPlayerInRange || targetPlayer == null) return;
+        if (!canAttack || !isPlayerInRange) return;
 
+        isAttacking = true; // 공격 시작 시 true로 변경
         canAttack = false;
 
         if (anim != null)
@@ -87,6 +91,7 @@ public class EnemyAttack : MonoBehaviour
     IEnumerator AttackCooldownRoutine()
     {
         yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false; // 쿨타임 끝나면 false로 변경
         canAttack = true;
     }
 }

@@ -19,7 +19,7 @@ public class PlayerJump : MonoBehaviour
         {
             //Debug.Log("착지중");
             JumpCounter = 0;
-            Debug.Log("점프 카운터 " + JumpCounter +"OnGround "+onGround);
+            //Debug.Log("점프 카운터 " + JumpCounter +"OnGround "+onGround);
         }
         
        

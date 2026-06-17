@@ -1,8 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
+    public SceneChange sceneChanger; // Inspector에서 연결할 수 있도록 public 선언
+
     private bool isOpened = false;
 
     public float openMoveY = 2f;
@@ -41,8 +44,12 @@ public class Door : MonoBehaviour
             );
 
             yield return null;
+
+            // 이동 완료 후 호출
+            SceneManager.LoadScene("StageSelect");
         }
 
         gameObject.SetActive(false);
+
     }
 }

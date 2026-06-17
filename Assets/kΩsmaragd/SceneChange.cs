@@ -20,10 +20,15 @@ public class SceneChange : MonoBehaviour
         else if (sceneName == "Stage_1")
             SC = "Stage1";
 
-        else if (sceneName == "Start_Button" || sceneName == "Back_Button")
+        else if (sceneName == "Start_Button" || sceneName == "Back_Button" || sceneName == "Stage1")
             SC = "StageSelect"; // 스테이지 밖으로 벗아날 때, 또는 타이틀 화면에서 시작 버튼을 눌렀을 때, 스테이지 선택창으로 이동
 
         SceneManager.LoadScene(SC);     // 여기서 이동시킬 씬의 이름을 적으면 된다.
+    }
+
+    public void Title_Go()
+    {
+        SceneManager.LoadScene("Main_Title");
     }
 
     public void GameEnd()   // End 버튼 전용으로 게임을 종료할 때 사용.

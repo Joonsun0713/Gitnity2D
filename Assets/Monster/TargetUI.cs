@@ -17,6 +17,7 @@ public class TargetUI : MonoBehaviour
         if (uiPanel == null) return; // UI 패널 자체가 없으면 무시
 
         uiPanel.SetActive(true);
+        Debug.Log("UI Panel 활성화됨"); // 이 로그가 찍히는지 확인
         nameText.text = name;
         healthBar.fillAmount = healthPercent;
     }
